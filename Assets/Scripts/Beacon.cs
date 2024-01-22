@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,9 +10,9 @@ public class Beacon : MonoBehaviour
     public int broadcastFrequency = 30;
     private int framesSinceLastBroadcast = 0;
 
-    public UnityEvent<System.DateTime, int, Vector3> signalBroadcast;
+    public UnityEvent<long, int, Vector3> signalBroadcast;
 
-    void Update()
+    void FixedUpdate()
     {
         if (framesSinceLastBroadcast >= broadcastFrequency)
         {
@@ -26,6 +27,7 @@ public class Beacon : MonoBehaviour
 
     void BroadcastSignal()
     {
-        signalBroadcast.Invoke(System.DateTime.Now, beaconID, transform.position);
+        // TODO: frequenz in millisekunden
+        signalBroadcast.Invoke(DateTimeOffset.Now.ToUnixTimeMilliseconds(), beaconID, transform.position);
     }
 }

@@ -348,6 +348,7 @@ GameObject:
   - component: {fileID: 396386508}
   - component: {fileID: 396386507}
   - component: {fileID: 396386509}
+  - component: {fileID: 396386510}
   m_Layer: 0
   m_Name: Boat
   m_TagString: Player
@@ -436,6 +437,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.02
+--- !u!114 &396386510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 396386506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97db8f12a6637df4a80053af0adcc5a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensorAccStandardDeviation: 3
+  compassAccStandardDeviation: 1
 --- !u!1 &636934697
 GameObject:
   m_ObjectHideFlags: 0
@@ -568,7 +583,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1866541453
 Transform:
   m_ObjectHideFlags: 0
@@ -591,11 +606,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1866541452}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97db8f12a6637df4a80053af0adcc5a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sensorAccStandardDeviation: 3
+  compassAccStandardDeviation: 1
 --- !u!1 &2034384838
 GameObject:
   m_ObjectHideFlags: 0
@@ -796,7 +813,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beaconID: 0
-  broadcastFrequency: 20
+  broadcastFrequency: 30
   signalBroadcast:
     m_PersistentCalls:
       m_Calls: []
