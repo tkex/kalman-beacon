@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEngine.Events;
 
 public class Sensor : MonoBehaviour
 {
@@ -11,18 +12,19 @@ public class Sensor : MonoBehaviour
     public float compassAccStandardDeviation = 1f;
 
     private GameObject[] beacons;
-    private string logFilePath = Application.dataPath + "/log.txt";
+    private string logFilePath = Application.dataPath + "/log.csv";
+
+    public UnityEvent<Measurement> conductedMeasurement;
+    public UnityEvent<float, float, float> sendSensorInfo;
 
     void Start()
     {
-        //
         beacons = GameObject.FindGameObjectsWithTag("Beacon");
         foreach (GameObject beacon in beacons)
         {
             var beaconScript = beacon.GetComponent<Beacon>();
-            beaconScript.signalBroadcast.AddListener(ReceiveBeaconBroadcast);
+            beaconScript.sendBroadcast.AddListener(ReceiveBeaconBroadcast);
         }
-
     }
 
     void ReceiveBeaconBroadcast(long sentTimestamp, int beaconId, Vector3 beaconPos)
@@ -32,7 +34,12 @@ public class Sensor : MonoBehaviour
         float angleGroundTruth = GetZAngleBetweenSensorAndPosition(headingAngle, beaconPos);
         float distortedAngle = GenerateRandomGaussian(angleGroundTruth, sensorAccStandardDeviation);
         int beaconFlag = 1;
-        LogBroadcast(timestamp: sentTimestamp, beaconId: beaconId, beaconPos: beaconPos, angleGroundTruth: angleGroundTruth, angleDistorted: distortedAngle, sensorSTD: sensorAccStandardDeviation, headingAngleGroundTruth: headingAngle, headingAngleDistorted: distortedHeadingAngle, compassSTD: compassAccStandardDeviation, beaconFlag: beaconFlag);
+
+        Measurement measurement = new Measurement(timestamp: sentTimestamp, beaconId: beaconId, beaconPos: beaconPos, angleGroundTruth: angleGroundTruth, angleDistorted: distortedAngle, sensorSTD: sensorAccStandardDeviation, headingAngleGroundTruth: headingAngle, headingAngleDistorted: distortedHeadingAngle, compassSTD: compassAccStandardDeviation, beaconFlag: beaconFlag);
+        LogMeasurement(measurement);
+
+        conductedMeasurement.Invoke(measurement);
+        sendSensorInfo.Invoke(sensorAccStandardDeviation, compassAccStandardDeviation, headingAngle);
     }
 
     float GenerateRandomGaussian(float mean, float std)
@@ -58,26 +65,14 @@ public class Sensor : MonoBehaviour
         Vector2 direction2D = new Vector2(direction.x, direction.y);
 
         float angle = Vector2.SignedAngle(Vector2.down, direction2D) - localAngle;
-        Debug.Log(angle);
 
         // Ensure the angle is positive (between 0 and 360 degrees)
         return (angle >= 0) ? angle : angle += 360f;
     }
 
-    void LogBroadcast(
-        long timestamp,
-        int beaconId,
-        Vector3 beaconPos,
-        float angleGroundTruth,
-        float angleDistorted,
-        float sensorSTD,
-        float headingAngleGroundTruth,
-        float headingAngleDistorted,
-        float compassSTD,
-        int beaconFlag
-        )
+    void LogMeasurement(Measurement measurement)
     {
-        string logText = $"{beaconFlag}\t{timestamp}\t{beaconId}\t{beaconPos}\t{angleGroundTruth}\t{angleDistorted}\t{sensorSTD}\t{headingAngleGroundTruth}\t{headingAngleDistorted}\t{compassSTD}";
+        string logText = measurement.GetCSVRepresentation();
         using (StreamWriter writer = new StreamWriter(logFilePath, true))
         {
             writer.WriteLine(logText);

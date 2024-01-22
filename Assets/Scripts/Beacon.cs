@@ -10,7 +10,7 @@ public class Beacon : MonoBehaviour
     public int broadcastFrequency = 30;
     private int framesSinceLastBroadcast = 0;
 
-    public UnityEvent<long, int, Vector3> signalBroadcast;
+    public UnityEvent<long, int, Vector3> sendBroadcast;
 
     void FixedUpdate()
     {
@@ -28,6 +28,6 @@ public class Beacon : MonoBehaviour
     void BroadcastSignal()
     {
         // TODO: frequenz in millisekunden
-        signalBroadcast.Invoke(DateTimeOffset.Now.ToUnixTimeMilliseconds(), beaconID, transform.position);
+        sendBroadcast.Invoke(DateTimeOffset.Now.ToUnixTimeMilliseconds(), beaconID, transform.position);
     }
 }
