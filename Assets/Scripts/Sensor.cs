@@ -17,6 +17,8 @@ public class Sensor : MonoBehaviour
     public UnityEvent<Measurement> conductedMeasurement;
     public UnityEvent<float, float, float> sendSensorInfo;
 
+    public UnityEvent<Measurement> onNewMeasurement;
+
     void Start()
     {
         beacons = GameObject.FindGameObjectsWithTag("Beacon");
@@ -37,6 +39,9 @@ public class Sensor : MonoBehaviour
 
         Measurement measurement = new Measurement(timestamp: sentTimestamp, beaconId: beaconId, beaconPos: beaconPos, angleGroundTruth: angleGroundTruth, angleDistorted: distortedAngle, sensorSTD: sensorAccStandardDeviation, headingAngleGroundTruth: headingAngle, headingAngleDistorted: distortedHeadingAngle, compassSTD: compassAccStandardDeviation, beaconFlag: beaconFlag);
         LogMeasurement(measurement);
+
+        // Trigger event for Websocket (see WebSocketClient).
+        onNewMeasurement.Invoke(measurement);
 
         conductedMeasurement.Invoke(measurement);
         sendSensorInfo.Invoke(sensorAccStandardDeviation, compassAccStandardDeviation, headingAngle);

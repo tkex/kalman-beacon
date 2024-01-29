@@ -12,6 +12,7 @@ public class Measurement
   public float headingAngleDistorted;
   public float compassSTD;
   public int beaconFlag;
+
   public Measurement(
     long timestamp,
     int beaconId,
@@ -40,6 +41,7 @@ public class Measurement
   public string GetCSVRepresentation()
   {
     string csvString = $"{this.beaconFlag}\t{this.timestamp}\t{this.beaconId}\t{this.beaconPos}\t{this.angleGroundTruth}\t{this.angleDistorted}\t{this.sensorSTD}\t{this.headingAngleGroundTruth}\t{this.headingAngleDistorted}\t{this.compassSTD}";
+    
     return csvString;
   }
 }
