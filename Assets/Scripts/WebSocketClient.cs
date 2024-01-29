@@ -27,6 +27,14 @@ public class WebSocketClient : MonoBehaviour
     public bool sendHeadingAngleDistorted;
     public bool sendCompassSTD;
 
+    [System.Serializable]
+    public class Data
+    {
+        public string testKey;
+    }
+
+
+
     // Control flag to only send data if measurement data are available. 
     private bool isReadyToSend = false;
 
@@ -86,31 +94,20 @@ public class WebSocketClient : MonoBehaviour
 #endif
     }
 
-  
     string SendDataBlock()
     {
-        List<string> filterDataParts = new List<string>();
+        Data data = new Data();
+        data.testKey = "testValue";
 
-        // Add individual measureData.
-        if (sendTimestamp) filterDataParts.Add(measurementData.timestamp.ToString());
-        if (sendBeaconId) filterDataParts.Add(measurementData.beaconId.ToString());
-        if (sendBeaconPos) filterDataParts.Add(measurementData.beaconPos.ToString());
-        if (sendAngleGroundTruth) filterDataParts.Add(measurementData.angleGroundTruth.ToString());
-        if (sendAngleDistorted) filterDataParts.Add(measurementData.angleDistorted.ToString());
-        if (sendSensorSTD) filterDataParts.Add(measurementData.sensorSTD.ToString());
-        if (sendHeadingAngleGroundTruth) filterDataParts.Add(measurementData.headingAngleGroundTruth.ToString());
-        if (sendHeadingAngleDistorted) filterDataParts.Add(measurementData.headingAngleDistorted.ToString());
-        if (sendCompassSTD) filterDataParts.Add(measurementData.compassSTD.ToString());
-        if (sendBeaconFlag) filterDataParts.Add(measurementData.beaconFlag.ToString());
-
-        // Space data via tabs.
-        return string.Join("\t", filterDataParts);
+        return JsonUtility.ToJson(data);
     }
 
     private void HandleNewMeasurement(Measurement measurement)
     {
         // Refresh/update measurementData with new fetched data.
         measurementData = measurement;
+
+        Debug.Log($"Received new measurement data: {measurement.ToString()}");
 
         // Send new msg with new data.
         //SendWebSocketMessage();
@@ -127,10 +124,18 @@ public class WebSocketClient : MonoBehaviour
     {
         if (websocket.State == WebSocketState.Open && isReadyToSend && measurementData != null)
         {
-            string message = SendDataBlock();
+            string jsonData = SendDataBlock();
+            
+            await websocket.SendText(jsonData);
 
-            await websocket.SendText(message);
+            Debug.Log("Sending JSON: " + jsonData);
         }
+        /*
+        else
+        {
+            Debug.LogError("WebSocket is neither open or ready to send any data...");
+        }
+        */
     }
 
     /*
