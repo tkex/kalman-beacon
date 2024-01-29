@@ -13,6 +13,8 @@ async def server(websocket, path):
             print("Received Data:", data)
 
             # Accessing to the data fields and sending responses to Unity
+            # Must be align with Unity ProcessReceivedMessageFromPython; or in Unity atleast adjusted.
+            # TODO: Decouple and isolate values to work with them individually.
             for key, value in data.items():
 
                 response = f"Echo {key}: {value}"

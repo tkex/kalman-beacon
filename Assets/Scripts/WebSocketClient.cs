@@ -105,7 +105,7 @@ public class WebSocketClient : MonoBehaviour
     void ProcessReceivedMessageFromPython(string msg)
     {
         // Important: Message (received data) is in format "Echo key: value"
-        // defined in the Web
+        // defined in the WebSocketServer; otherwise change here.
         if (msg.StartsWith("Echo"))
         {
             string[] parts = msg.Split(new[] { ':' }, 2);
