@@ -8,21 +8,26 @@ public class WebSocketClient : MonoBehaviour
     WebSocket websocket;
     public Measurement measurementData;
 
-    [Header("Reference Settings")]
     // Reference.
+    [Header("Reference Settings")]    
     [Tooltip("Reference to the sensor script.")]
     public Sensor sensor;
 
-    // Slider from 0.1 to 5 secs.
-    
+
+    [Header("WebSocket Settings")]
+    [Tooltip("WebSocket server URL")]
+    public string webSocketUrl = "ws://localhost:2567";
+
+
+    // Slider from 0.1 to 5 secs.    
     [Header("Transmitting Settings")]
     [Tooltip("Configured the speed in which the data get transmitted i.e. 1 is 1 sec.")]
     [Range(0.1f, 5.0f)]
     public float sendInterval = 1.0f;
 
-    [Header("Data Settings")]
-    [Tooltip("Configure which data should be sent, otherwise null values are transmitted.")]
     // Control vars to define which data are transmitted.
+    [Header("Data Settings")]
+    [Tooltip("Configure which data should be sent - otherwise null values are transmitted.")]
     public bool sendBeaconFlag;
     public bool sendTimestamp;
     public bool sendBeaconId;
@@ -71,7 +76,7 @@ public class WebSocketClient : MonoBehaviour
 
 
         // *** WEBSOCKET EVENT CONFIGURATION ***
-        websocket = new WebSocket("ws://localhost:2567");
+        websocket = new WebSocket(webSocketUrl);
 
         // Event handler.
         websocket.OnOpen += () => Debug.Log("Connection open!");
@@ -80,12 +85,6 @@ public class WebSocketClient : MonoBehaviour
 
         websocket.OnMessage += (bytes) =>
         {
-            // Debug.Log("OnMessage!");
-            // Debug.Log(bytes);
-            // getting the message as a string
-            // var message = System.Text.Encoding.UTF8.GetString(bytes);
-            // Debug.Log("OnMessage! " + message);
-
             // Received Python bytes into UTF-8 string
             string msg = System.Text.Encoding.UTF8.GetString(bytes);
 
@@ -131,16 +130,6 @@ public class WebSocketClient : MonoBehaviour
 #endif
     }
 
-    /*
-    string SendDataBlock()
-    {
-        Data data = new Data();
-        data.testKey = "testValue";
-
-        return JsonUtility.ToJson(data);
-    }
-    */
-
     string SendDataBlock()
     {
         MeasurementData data = new MeasurementData
@@ -169,9 +158,6 @@ public class WebSocketClient : MonoBehaviour
 
         Debug.Log($"Received new measurement data: {measurement.ToString()}");
 
-        // Send new msg with new data.
-        //SendWebSocketMessage();
-
         if (!isReadyToSend)
         {
             isReadyToSend = true;
@@ -197,21 +183,6 @@ public class WebSocketClient : MonoBehaviour
         }
         */
     }
-
-    /*
-    async void SendWebSocketMessage()
-    {
-        if (websocket.State == WebSocketState.Open)
-        {
-            // Sending bytes
-            await websocket.Send(new byte[] { 10, 20, 30 });
-
-            // Sending plain text
-            await websocket.SendText("plain text message");
-        }
-    }
-    */
-
 
     private async void OnApplicationQuit()
     {
