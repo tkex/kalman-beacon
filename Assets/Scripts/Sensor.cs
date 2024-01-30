@@ -78,6 +78,7 @@ public class Sensor : MonoBehaviour
     void LogMeasurement(Measurement measurement)
     {
         string logText = measurement.GetCSVRepresentation();
+        logText += $"\t{transform.position.y}\t{transform.position.x}";
         using (StreamWriter writer = new StreamWriter(logFilePath, true))
         {
             writer.WriteLine(logText);

@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class Beacon : MonoBehaviour
 {
     public int beaconID;
-    public int broadcastFrequency = 30;
+    public int broadcastFrequency = 6;
     private int framesSinceLastBroadcast = 0;
 
     public UnityEvent<long, int, Vector3> sendBroadcast;

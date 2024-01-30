@@ -5209,7 +5209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beaconID: 1
-  broadcastFrequency: 20
+  broadcastFrequency: 6
   sendBroadcast:
     m_PersistentCalls:
       m_Calls: []
@@ -5311,7 +5311,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beaconID: 0
-  broadcastFrequency: 30
+  broadcastFrequency: 6
   sendBroadcast:
     m_PersistentCalls:
       m_Calls: []
