@@ -6,39 +6,39 @@ Hier sind einige Hinweise zu den Funktionen, die (noch) nicht implementiert sind
 
 Die folgende Liste der Funktionen soll in Zukunft im Kalman-Beacon-Projekt implementiert werden:
 
-**Unscented Kalman-Filter:**
+### Unscented Kalman-Filter:
 
 | Name | Beschreibung | Status / Anmerkungen |
 | --- | --- | --- |
-| Import von Bibliotheken | Integration der (notwendigen) Bibliotheken wie NumPy, Matplotlib und FilterPy. | ✅ Done |
-| Konstantendefinition | Definition der Konstanten für Beacon-Positionen und Zeitintervall. | ✅ Done |
-| Zustandsübergangsfunktion | Implementierung der Funktion zur Berechnung des neuen Zustands. | ✅ Done |
-| Messfunktion | Entwicklung der Funktion zur Umwandlung des Zustandsraums in Messwerte. | ✅ Done |
-| Schiffsbewegungssimulation | Simulation der Schiffsbewegung über einen definierten Zeitraum. | ✅ Done |
-| Erzeugung verrauschter Messdaten | Funktion zur Erstellung von verrauschten Messdaten aus den wahren Zuständen. | ✅ Done |
-| UKF-Initialisierung | Aufbau und Konfiguration des Unscented Kalman Filters. | ✅ Done |
+| Import von Bibliotheken | Integration der (notwendigen) Bibliotheken wie NumPy, Matplotlib und FilterPy. | ✅ DONE |
+| Konstantendefinition | Definition der Konstanten für Beacon-Positionen und Zeitintervall. | ✅ DONE |
+| Zustandsübergangsfunktion | Implementierung der Funktion zur Berechnung des neuen Zustands. | ✅ DONE |
+| Messfunktion | Entwicklung der Funktion zur Umwandlung des Zustandsraums in Messwerte. | ✅ DONE |
+| Schiffsbewegungssimulation | Simulation der Schiffsbewegung über einen definierten Zeitraum. | ✅ DONE |
+| Erzeugung verrauschter Messdaten | Funktion zur Erstellung von verrauschten Messdaten aus den wahren Zuständen. | ✅ DONE |
+| UKF-Initialisierung | Aufbau und Konfiguration des Unscented Kalman Filters. | ✅ DONE |
 | Geschwindigkeitsaktualisierung | Implementierung für die Aktualisierung der Geschwindigkeit (im UKF) | 🚧️ ***Under construction***  (Refaktorisierung in Erwägung) |
-| Hauptfunktion | Hauptfunktion mit Initialisierung, Vorhersage und Update-Zyklen. | ✅ Done |
+| Hauptfunktion | Hauptfunktion mit Initialisierung, Vorhersage und Update-Zyklen. | ✅ DONE |
 | Visualisierung | Entwicklung einer Methode zur Visualisierung der Ergebnisse des Filters. | ❌ **TODO** |
 | Leistungsanalyse | Implementierung von Tests zur Bewertung der Leistung und Genauigkeit des Filters. | ❌ **TODO** |
-| Code-Dokumentation | Erstellung eines Papers zum Projekt | ❌ **TODO** |
+| Parametrisierung / Tuning | Anpassung der Filterparameter für optimalere Leistung. | ❌ **TODO** |
 | Fehlerbehandlung | Erweiterung des Codes um robuste Fehlerbehandlung und Ausnahmeprüfungen. | ❌ **TODO** |
-| Parametrisierung / Tuning | Anpassung der Filterparameter für optimale Leistung. | ❌ **TODO** |
-| Echtzeit-Verarbeitung | Erweiterung/Anpassung des Codes zwecks Echtzeit-Datenverarbeitung. | ❌ **TODO** |
+| Echtzeit | Erweiterung/Anpassung des Codes zwecks Echtzeit-Datenverarbeitung. | ❌ **TODO** |
+| Code-Dokumentation | Erstellung eines Papers zum Projekt | ❌ **TODO** |
 
-**Unity:**
+### Unity:
 
 | Name | Beschreibung | Status / Anmerkungen |
 | --- | --- | --- |
-| Unity-Projektsetup | Einrichtung des Unity-Projekts. | ✅ Done |
-| Sensordatenintegration | Integration und Verarbeitung von Sensordaten. | ✅ Done |
+| Unity-Projektsetup | Einrichtung des Unity-Projekts. | ✅ DONE |
+| Sensordatenintegration | Integration und Verarbeitung von Sensordaten. | ✅ DONE |
 | Bootssimulation | Entwicklung einer realistischen Bootssteuerungs- und Bewegungssimulation (Physik). | ❌ **TODO** |
 | Physik-Engine Anpassung | Verwendung der Unity-Physik-Engine für realistische Bootsbewegungen. | ❌ **TODO** |
 | 3D-Modellierung | Erstellung oder Integration von 3D-Modellen für das Boot und die Umgebung. | ❌ **TODO** |
 | Sensordatenvisualisierung | Entwicklung von Methoden zur Visualisierung der Sensordaten in Echtzeit. | 🚧️ ***Under construction*** |
 | Logdateierstellung | Implementierung eines Systems zur Erstellung von Logdateien für Sensordaten | 🚧️ ***Under construction*** |
-| WebSocket-Implementierung | Aufbau einer WebSocket-Verbindung für Echtzeit-Datenübertragung. | ✅ Done |
-| Benutzeroberfläche | Entwicklung einer Benutzeroberfläche zur Anzeige von Sensordatenn. | ✅ Done |
+| WebSocket-Implementierung | Aufbau einer WebSocket-Verbindung für Echtzeit-Datenübertragung. | ✅ DONE |
+| Benutzeroberfläche | Entwicklung einer Benutzeroberfläche zur Anzeige von Sensordatenn. | ✅ DONE |
 | Echtzeit-Interaktion | Entwicklung von Echtzeit-Interaktion für das Boot. | ❌ **TODO** |
 | Fehlerbehandlung und Optimierung | Implementierung robuster Fehlerbehandlung und Leistungsoptimierung. | ❌ **TODO** |
 
