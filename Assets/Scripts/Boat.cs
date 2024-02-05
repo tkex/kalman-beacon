@@ -48,6 +48,7 @@ public class Boat : MonoBehaviour
         newRudderAngle = rudderAngle - returnSign * rudderReturnSpeed * Time.deltaTime;
       }
       rudderAngle = Mathf.Clamp(newRudderAngle, -rudderMaxAngle, rudderMaxAngle);
+      rudderAngle = Mathf.Round(rudderAngle * 100f) / 100f;
       // Visualize rudder
       rudderDisplayPivot.transform.localEulerAngles = Vector3.forward * rudderAngle;
     }
@@ -59,6 +60,7 @@ public class Boat : MonoBehaviour
       var positionChange = trajectory * propulsion;
       transform.position += positionChange * Time.deltaTime;
       // turn boat depending on rudder and "movespeed" of boat 
+      // könnte sein, dass magnitude hier laggs verursacht
       var rudderStirFactor = rudderAngle * rudderBoatTurnFactor * positionChange.magnitude;
       var rotationChange = Vector3.forward * rudderStirFactor;
       transform.eulerAngles += rotationChange * Time.deltaTime; 
