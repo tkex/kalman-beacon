@@ -1447,7 +1447,7 @@ Transform:
   m_GameObject: {fileID: 396386506}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -30, z: 0}
+  m_LocalPosition: {x: 0, y: -14.2, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1465,7 +1465,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbfcd6fc4bcd20549931e28e15d4e717, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.02
+  maxSpeed: 0.04
+  accSpeed: 0.1
+  propulsion: 0
+  maxOarAngle: 45
+  turnSpeed: 20
+  oarAngle: 0
 --- !u!114 &396386510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1484,6 +1489,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   sendSensorInfo:
+    m_PersistentCalls:
+      m_Calls: []
+  onNewMeasurement:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &443094887
@@ -1962,13 +1970,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 636934697}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.19594295, w: 0.9806153}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 400, y: 200, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1782606295}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -22.6}
 --- !u!212 &636934699
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3142,7 +3150,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1141822162
 Transform:
   m_ObjectHideFlags: 0
@@ -3170,6 +3178,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dbbc1a042b8fb24b93931260d46bb0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sensor: {fileID: 0}
+  webSocketUrl: ws://localhost:2567
+  sendInterval: 1
+  sendBeaconFlag: 0
+  sendTimestamp: 0
+  sendBeaconId: 0
+  sendBeaconPos: 0
+  sendAngleGroundTruth: 0
+  sendAngleDistorted: 0
+  sendSensorSTD: 0
+  sendHeadingAngleGroundTruth: 0
+  sendHeadingAngleDistorted: 0
+  sendCompassSTD: 0
 --- !u!1 &1215246817
 GameObject:
   m_ObjectHideFlags: 0
