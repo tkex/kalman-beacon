@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 2260.8713, g: 2402.551, b: 3500.4106, a: 1}
+  m_IndirectSpecularColor: {r: 2261.3264, g: 2404.883, b: 3507.188, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -866,11 +866,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b9f535beab8623438b381574b6e966e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ruder: {fileID: 263223517}
+  maxRuderAngle: 30
   speed: 20
   turnSpeed: 40
   ruderEffectiveness: 1
-  ruder: {fileID: 263223517}
-  maxRuderAngle: 30
+  ruderReturnSpeed: 1
+  zTarget: 100
+  controlMode: 0
 --- !u!1 &716462489
 GameObject:
   m_ObjectHideFlags: 0

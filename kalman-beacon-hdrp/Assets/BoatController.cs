@@ -2,6 +2,15 @@ using UnityEngine;
 
 public class BoatController : MonoBehaviour
 {
+    // Rb of the boat
+    private Rigidbody rb;
+
+    // Ruder reference
+    public Transform ruder;
+
+    // Max. degree of the ruder (oar) that is possible
+    public float maxRuderAngle = 30f;
+
     // Speed of the boat
     public float speed = 10f;
 
@@ -11,19 +20,24 @@ public class BoatController : MonoBehaviour
     // Effect var how strong the ruder is applying to the rotation (100%)
     public float ruderEffectiveness = 1f;
 
-    // Ruder reference
-    public Transform ruder;
-
-    // Max. degree of the ruder (oar) that is possible
-    public float maxRuderAngle = 30f;
-
     // Speed at which the ruder returns to center when no input is given
     public float ruderReturnSpeed = 1f;
 
-    private Rigidbody rb;
-
     // Actual position of the ruder (oar) (-1 to 1)
     private float ruderPosition = 0f;
+
+    // Target in Z-Axis -- set in inspector
+    [Range(0, 1000)]
+    public float zTarget = 100f;
+
+    // Control modi
+    public enum ControlMode
+    {
+        Manual, // Manual control (WASD)
+        Straight // Straight line
+    }
+
+    public ControlMode controlMode = ControlMode.Manual;
 
     private void Start()
     {
@@ -32,46 +46,69 @@ public class BoatController : MonoBehaviour
 
     private void Update()
     {
-        // Updates ruder position based on horizontal axis inputs (A and D buttons)
+        switch (controlMode)
+        {
+            case ControlMode.Manual:
+                ManualControl();
+                break;
+            case ControlMode.Straight:
+                StraightLine();
+                break;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (controlMode == ControlMode.Manual)
+        {
+            ManualPhysicsForManualModus();
+        }
+    }
+
+    void ManualPhysicsForManualModus()
+    {
+        float moveVertical = Input.GetAxis("Vertical");
+        rb.AddForce(transform.forward * moveVertical * speed);
+
+        if (moveVertical > 0)
+        {
+            float speedFactor = rb.velocity.magnitude / speed;
+            rb.AddTorque(0f, ruderPosition * turnSpeed * ruderEffectiveness * speedFactor * moveVertical, 0f);
+        }
+    }
+
+    void ManualControl()
+    {
+
         float ruderInput = Input.GetAxis("Horizontal");
         if (Mathf.Abs(ruderInput) > 0f)
         {
-            // Adjusts the ruder based on input
             ruderPosition += ruderInput * Time.deltaTime;
         }
         else
         {
-            // Gradually returns the ruder to center if there is no input
             if (ruderPosition != 0)
             {
                 float returnSign = Mathf.Sign(ruderPosition);
                 ruderPosition -= returnSign * ruderReturnSpeed * Time.deltaTime;
-                ruderPosition = Mathf.Clamp(ruderPosition, -1f, 1f); // Ensures ruderPosition stays within bounds
+                ruderPosition = Mathf.Clamp(ruderPosition, -1f, 1f);
             }
         }
         ruderPosition = Mathf.Clamp(ruderPosition, -1f, 1f);
 
-        // Rotate the ruder object if it's not null
         if (ruder != null)
         {
             ruder.localEulerAngles = new Vector3(ruder.localEulerAngles.x, ruderPosition * maxRuderAngle, ruder.localEulerAngles.z);
         }
     }
 
-    private void FixedUpdate()
+    void StraightLine()
     {
-        // Forward and backward movement (W and S buttons)
-        float moveVertical = Input.GetAxis("Vertical");
-        rb.AddForce(transform.forward * moveVertical * speed);
-
-        // Only apply ruder turning effect if there is forward movement
-        if (moveVertical > 0)
+        if (transform.position.z != zTarget)
         {
-            // Adjusting the turning force based on the speed of the boat
-            float speedFactor = rb.velocity.magnitude / speed;
-            rb.AddTorque(0f, ruderPosition * turnSpeed * ruderEffectiveness * speedFactor * moveVertical, 0f);
+            // Easy movement to position of Z-value
+            float step = speed * Time.deltaTime;
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(transform.position.x, transform.position.y, zTarget), step);
         }
-
-        Debug.Log("Ruderwinkel" + ruder.localEulerAngles);
     }
 }
