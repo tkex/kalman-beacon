@@ -2,6 +2,16 @@ using UnityEngine;
 
 public class BoatController : MonoBehaviour
 {
+
+    // Rb of the boat
+    private Rigidbody rb;
+
+    // Ruder reference
+    public Transform ruder;
+
+    // Max. degree of the ruder (oar) that is possible
+    public float maxRuderAngle = 30f;
+
     // Speed of the boat
     public float speed = 10f;
 
@@ -11,16 +21,8 @@ public class BoatController : MonoBehaviour
     // Effect var how strong the ruder is applying to the rotation (100%)
     public float ruderEffectiveness = 1f;
 
-    // Ruder reference
-    public Transform ruder;
-
-    // Max. degree of the ruder (oar) that is possible
-    public float maxRuderAngle = 30f;
-
     // Speed at which the ruder returns to center when no input is given
     public float ruderReturnSpeed = 1f;
-
-    private Rigidbody rb;
 
     // Actual position of the ruder (oar) (-1 to 1)
     private float ruderPosition = 0f;
@@ -72,6 +74,7 @@ public class BoatController : MonoBehaviour
             rb.AddTorque(0f, ruderPosition * turnSpeed * ruderEffectiveness * speedFactor * moveVertical, 0f);
         }
 
+        // N: 0, E: 90, S: 180, W: 270
         Debug.Log("Ruderwinkel" + ruder.localEulerAngles);
     }
 }
