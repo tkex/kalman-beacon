@@ -27,6 +27,15 @@ public class BoatController : MonoBehaviour
     // Actual position of the ruder (oar) (-1 to 1)
     private float ruderPosition = 0f;
 
+    // Control modi
+    public enum ControlMode
+    {
+        Manual, // Manual control (WASD)
+        Straight // Straight line
+    }
+
+    public ControlMode controlMode = ControlMode.Manual;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
