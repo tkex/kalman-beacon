@@ -13,6 +13,7 @@ public class Sensor : MonoBehaviour
 
     private GameObject[] beacons;
     private string logFilePath = Application.dataPath + "/log.csv";
+    private Boat boat;
 
     public UnityEvent<Measurement> conductedMeasurement;
     public UnityEvent<float, float, float> sendSensorInfo;
@@ -21,6 +22,7 @@ public class Sensor : MonoBehaviour
 
     void Start()
     {
+        boat = GetComponent<Boat>();
         beacons = GameObject.FindGameObjectsWithTag("Beacon");
         foreach (GameObject beacon in beacons)
         {
@@ -37,7 +39,7 @@ public class Sensor : MonoBehaviour
         float distortedAngle = GenerateRandomGaussian(angleGroundTruth, sensorAccStandardDeviation);
         int beaconFlag = 1;
 
-        Measurement measurement = new Measurement(timestamp: sentTimestamp, beaconId: beaconId, beaconPos: beaconPos, angleGroundTruth: angleGroundTruth, angleDistorted: distortedAngle, sensorSTD: sensorAccStandardDeviation, headingAngleGroundTruth: headingAngle, headingAngleDistorted: distortedHeadingAngle, compassSTD: compassAccStandardDeviation, beaconFlag: beaconFlag);
+        Measurement measurement = new Measurement(timestamp: sentTimestamp, beaconId: beaconId, beaconPos: beaconPos, angleGroundTruth: angleGroundTruth, angleDistorted: distortedAngle, sensorSTD: sensorAccStandardDeviation, headingAngleGroundTruth: headingAngle, headingAngleDistorted: distortedHeadingAngle, compassSTD: compassAccStandardDeviation, beaconFlag: beaconFlag, propulsion: boat.propulsion, rudderAngle: boat.rudderAngle);
         LogMeasurement(measurement);
 
         // Trigger event for Websocket (see WebSocketClient).

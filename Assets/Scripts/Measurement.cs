@@ -12,6 +12,8 @@ public class Measurement
   public float headingAngleDistorted;
   public float compassSTD;
   public int beaconFlag;
+  public float propulsion;
+  public float rudderAngle;
 
   public Measurement(
     long timestamp,
@@ -23,7 +25,9 @@ public class Measurement
     float headingAngleGroundTruth,
     float headingAngleDistorted,
     float compassSTD,
-    int beaconFlag
+    int beaconFlag,
+    float propulsion,
+    float rudderAngle
     )
   {
     this.timestamp = timestamp;
@@ -36,11 +40,13 @@ public class Measurement
     this.headingAngleDistorted = headingAngleDistorted;
     this.compassSTD = compassSTD;
     this.beaconFlag = beaconFlag;
+    this.propulsion = propulsion;
+    this.rudderAngle = rudderAngle;
   }
 
   public string GetCSVRepresentation()
   {
-    string csvString = $"{this.beaconFlag}\t{this.timestamp}\t{this.beaconId}\t{this.beaconPos}\t{this.angleGroundTruth}\t{this.angleDistorted}\t{this.sensorSTD}\t{this.headingAngleGroundTruth}\t{this.headingAngleDistorted}\t{this.compassSTD}";
+    string csvString = $"{this.beaconFlag}\t{this.timestamp}\t{this.beaconId}\t{this.beaconPos}\t{this.angleGroundTruth}\t{this.angleDistorted}\t{this.sensorSTD}\t{this.headingAngleGroundTruth}\t{this.headingAngleDistorted}\t{this.compassSTD}\t{this.propulsion}\t{this.rudderAngle}";
     
     return csvString;
   }
