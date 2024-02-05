@@ -5,15 +5,25 @@ using UnityEngine.Rendering.HighDefinition;
 
 public class Floater : MonoBehaviour
 {
-
+    // Rb of the boat or floating point (empty go)
     public Rigidbody rb;
+
+    //  Depth before submersion at which the boat starts to experience buoyancy
     public float depthBefSub;
+
+    // Amount of water displacement caused by the boat
     public float displacementAmt;
+
+    // Number of points on the boat contributing to buoyancy -- used to distribute force
     public int floaters;
 
+    // Drag coefficient in water -- affecting the boats resistance to movement in water.
     public float waterDrag;
+
+    // Angular drag coefficient in water -- affecting the boats resistance to rotational movement in water
     public float waterAngularDrag;
 
+    // Water params
     public WaterSurface water;
     WaterSearchParameters Search;
     WaterSearchResult SearchResult;
