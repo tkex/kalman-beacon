@@ -7,13 +7,16 @@ public class UI : MonoBehaviour
     // index = id. Achtung: Mögliche Fehlerquelle
     public BeaconStats[] beaconStatsScripts;
     public SensorStats sensorStats;
+    public BoatStats boatStats;
 
     void Start()
     {
         var player = GameObject.FindGameObjectWithTag("Player");
         var sensorScript = player.GetComponent<Sensor>();
+        var boatScript = player.GetComponent<Boat>();
         sensorScript.conductedMeasurement.AddListener(UpdateStatsWithMeasurement);
         sensorScript.sendSensorInfo.AddListener(UpdateSensorInfo);
+        boatScript.sendBoatInfo.AddListener(UpdateBoatInfo);
     }
 
     void UpdateStatsWithMeasurement(Measurement measurement)
@@ -31,6 +34,11 @@ public class UI : MonoBehaviour
     void UpdateSensorInfo(float sensorSTD, float compassSTD, float headingGT)
     {
         this.sensorStats.SetStats(sensorSTD, compassSTD, headingGT);
+    }
+
+    void UpdateBoatInfo(float propulsion, float rudderAngle)
+    {
+        this.boatStats.SetStats( propulsion, rudderAngle);
     }
 
 }
