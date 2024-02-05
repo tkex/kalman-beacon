@@ -873,7 +873,7 @@ MonoBehaviour:
   ruderEffectiveness: 1
   ruderReturnSpeed: 1
   zTarget: 100
-  controlMode: 1
+  controlMode: 0
 --- !u!1 &716462489
 GameObject:
   m_ObjectHideFlags: 0
