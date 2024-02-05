@@ -71,5 +71,7 @@ public class BoatController : MonoBehaviour
             float speedFactor = rb.velocity.magnitude / speed;
             rb.AddTorque(0f, ruderPosition * turnSpeed * ruderEffectiveness * speedFactor * moveVertical, 0f);
         }
+
+        Debug.Log("Ruderwinkel" + ruder.localEulerAngles);
     }
 }
