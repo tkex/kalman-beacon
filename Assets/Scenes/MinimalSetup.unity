@@ -1658,8 +1658,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97db8f12a6637df4a80053af0adcc5a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sensorAccStandardDeviation: 3
-  compassAccStandardDeviation: 1
+  sensorAccStandardDeviation: 0.01
+  compassAccStandardDeviation: 0.01
   conductedMeasurement:
     m_PersistentCalls:
       m_Calls: []
@@ -6250,8 +6250,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea70a2e174583554a80b2cda671d620a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beaconID: 1
-  broadcastFrequency: 20
+  beaconID: 0
+  broadcastFrequency: 10
   sendBroadcast:
     m_PersistentCalls:
       m_Calls: []
@@ -6353,7 +6353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beaconID: 0
-  broadcastFrequency: 30
+  broadcastFrequency: 10
   sendBroadcast:
     m_PersistentCalls:
       m_Calls: []
