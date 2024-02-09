@@ -6,57 +6,58 @@ using UnityEngine;
 public class Richtungssensor : MonoBehaviour
 {
 
-  public GameObject[] beacons;
-  public GameObject[] beaconDirPivots;
-  public GameObject[] beaconDirectionPoints;
-  public int abtastrateInHz = 10;
-  private float abtastInterval;
-  private float timeSinceLastMeasurement = 0f;
-  private int totalMeasurements = 0;
+    public GameObject[] beacons;
+    public GameObject[] beaconDirPivots;
+    public GameObject[] beaconDirectionPoints;
+    public int abtastrateInHz = 10;
+    private float abtastInterval;
+    private float timeSinceLastMeasurement = 0f;
+    private int totalMeasurements = 0;
 
-  public float STD = 1f; 
+    public float STD = 1f;
 
-  private float[] beaconAnglesGT;
-  private float[] beaconAnglesDistorted;
-  private Vector2[] beaconDirectionsDistorted;
+    private float[] beaconAnglesGT;
+    private float[] beaconAnglesDistorted;
+    private Vector2[] beaconDirectionsDistorted;
 
-  private string logFilePath = Application.dataPath + "/log.csv";
+    private string logFilePath = Application.dataPath + "/log.csv";
 
 
     void Start()
     {
-      abtastInterval = 1f/abtastrateInHz;
-      beaconAnglesGT = new float[3];
-      beaconAnglesDistorted = new float[3];
-      beaconDirectionsDistorted = new Vector2[3];
+        abtastInterval = 1f / abtastrateInHz;
+        beaconAnglesGT = new float[3];
+        beaconAnglesDistorted = new float[3];
+        beaconDirectionsDistorted = new Vector2[3];
     }
 
     void Update()
     {
-      timeSinceLastMeasurement += Time.deltaTime;
-      if (timeSinceLastMeasurement >= abtastInterval){
-        PerformMeasurement();
-        VisualizeLatestMeasurement();
-        timeSinceLastMeasurement = 0;
-      }
+        timeSinceLastMeasurement += Time.deltaTime;
+        if (timeSinceLastMeasurement >= abtastInterval)
+        {
+            PerformMeasurement();
+            VisualizeLatestMeasurement();
+            timeSinceLastMeasurement = 0;
+        }
     }
 
     void PerformMeasurement()
     {
-      beaconAnglesGT[0] = GetRelativeAngleToPosition(beacons[0].transform.position);
-      beaconAnglesGT[1] = GetRelativeAngleToPosition(beacons[1].transform.position);
-      beaconAnglesGT[2] = GetRelativeAngleToPosition(beacons[2].transform.position);
-      
-      beaconAnglesDistorted[0] = GenerateRandomGaussian(beaconAnglesGT[0], STD);
-      beaconAnglesDistorted[1] = GenerateRandomGaussian(beaconAnglesGT[1], STD);
-      beaconAnglesDistorted[2] = GenerateRandomGaussian(beaconAnglesGT[2], STD);
+        beaconAnglesGT[0] = GetRelativeAngleToPosition(beacons[0].transform.position);
+        beaconAnglesGT[1] = GetRelativeAngleToPosition(beacons[1].transform.position);
+        beaconAnglesGT[2] = GetRelativeAngleToPosition(beacons[2].transform.position);
 
-      SetBeaconDirPivotsByDistortedAngles();
-      SetBeaconDirections();
+        beaconAnglesDistorted[0] = GenerateRandomGaussian(beaconAnglesGT[0], STD);
+        beaconAnglesDistorted[1] = GenerateRandomGaussian(beaconAnglesGT[1], STD);
+        beaconAnglesDistorted[2] = GenerateRandomGaussian(beaconAnglesGT[2], STD);
 
-      WriteLog();
+        SetBeaconDirPivotsByDistortedAngles();
+        SetBeaconDirections();
 
-      totalMeasurements +=1;
+        WriteLog();
+
+        totalMeasurements += 1;
     }
 
     float GetRelativeAngleToPosition(Vector3 position)
@@ -72,39 +73,41 @@ public class Richtungssensor : MonoBehaviour
         return (angle >= 0) ? angle : angle += 360f;
     }
 
-    void SetBeaconDirPivotsByDistortedAngles(){
-      beaconDirPivots[0].transform.eulerAngles = new Vector3(0,0,beaconAnglesDistorted[0]);
-      beaconDirPivots[1].transform.eulerAngles = new Vector3(0,0,beaconAnglesDistorted[1]);
-      beaconDirPivots[2].transform.eulerAngles = new Vector3(0,0,beaconAnglesDistorted[2]);
+    void SetBeaconDirPivotsByDistortedAngles()
+    {
+        beaconDirPivots[0].transform.eulerAngles = new Vector3(0, 0, beaconAnglesDistorted[0]);
+        beaconDirPivots[1].transform.eulerAngles = new Vector3(0, 0, beaconAnglesDistorted[1]);
+        beaconDirPivots[2].transform.eulerAngles = new Vector3(0, 0, beaconAnglesDistorted[2]);
     }
 
     void SetBeaconDirections()
     {
-      Vector3 dirBeacon0 = beaconDirectionPoints[0].transform.position - transform.position;
-      Vector3 dirBeacon1 = beaconDirectionPoints[1].transform.position - transform.position;
-      Vector3 dirBeacon2 = beaconDirectionPoints[2].transform.position - transform.position;
-      dirBeacon0.Normalize();
-      dirBeacon1.Normalize();
-      dirBeacon2.Normalize();
-      beaconDirectionsDistorted[0] = new Vector2(dirBeacon0.x, dirBeacon0.y); 
-      beaconDirectionsDistorted[1] = new Vector2(dirBeacon1.x, dirBeacon1.y); 
-      beaconDirectionsDistorted[2] = new Vector2(dirBeacon2.x, dirBeacon2.y); 
+        Vector3 dirBeacon0 = beaconDirectionPoints[0].transform.position - transform.position;
+        Vector3 dirBeacon1 = beaconDirectionPoints[1].transform.position - transform.position;
+        Vector3 dirBeacon2 = beaconDirectionPoints[2].transform.position - transform.position;
+        dirBeacon0.Normalize();
+        dirBeacon1.Normalize();
+        dirBeacon2.Normalize();
+        beaconDirectionsDistorted[0] = new Vector2(dirBeacon0.x, dirBeacon0.y);
+        beaconDirectionsDistorted[1] = new Vector2(dirBeacon1.x, dirBeacon1.y);
+        beaconDirectionsDistorted[2] = new Vector2(dirBeacon2.x, dirBeacon2.y);
     }
 
-    void VisualizeLatestMeasurement(){
-      Debug.Log($"### MEASUREMENT {totalMeasurements} ###");
-      // Debug.Log("-- angles GT");
-      // Debug.Log($"BEACON-0: {beaconAnglesGT[0]}");
-      // Debug.Log($"BEACON-1: {beaconAnglesGT[1]}");
-      // Debug.Log($"BEACON-2: {beaconAnglesGT[2]}");
-      // Debug.Log("-- angles Distorted");
-      // Debug.Log($"BEACON-0: {beaconAnglesDistorted[0]}");
-      // Debug.Log($"BEACON-1: {beaconAnglesDistorted[1]}");
-      // Debug.Log($"BEACON-2: {beaconAnglesDistorted[2]}");
-      Debug.Log("-- beacon directions distorted");
-      Debug.Log($"BEACON-0: {beaconDirectionsDistorted[0]}");
-      Debug.Log($"BEACON-1: {beaconDirectionsDistorted[1]}");
-      Debug.Log($"BEACON-2: {beaconDirectionsDistorted[2]}");
+    void VisualizeLatestMeasurement()
+    {
+        Debug.Log($"### MEASUREMENT {totalMeasurements} ###");
+        // Debug.Log("-- angles GT");
+        // Debug.Log($"BEACON-0: {beaconAnglesGT[0]}");
+        // Debug.Log($"BEACON-1: {beaconAnglesGT[1]}");
+        // Debug.Log($"BEACON-2: {beaconAnglesGT[2]}");
+        // Debug.Log("-- angles Distorted");
+        // Debug.Log($"BEACON-0: {beaconAnglesDistorted[0]}");
+        // Debug.Log($"BEACON-1: {beaconAnglesDistorted[1]}");
+        // Debug.Log($"BEACON-2: {beaconAnglesDistorted[2]}");
+        Debug.Log("-- beacon directions distorted");
+        Debug.Log($"BEACON-0: {beaconDirectionsDistorted[0]}");
+        Debug.Log($"BEACON-1: {beaconDirectionsDistorted[1]}");
+        Debug.Log($"BEACON-2: {beaconDirectionsDistorted[2]}");
     }
 
 
@@ -116,34 +119,32 @@ public class Richtungssensor : MonoBehaviour
         float z0 = Mathf.Sqrt(-2f * Mathf.Log(u1)) * Mathf.Cos(2f * Mathf.PI * u2);
         // Scale and shift to get the desired mean and standard deviation
         float gaussianValue = mean + z0 * std;
+
         return gaussianValue;
     }
 
-    void WriteLog(){
-      // runde auf 3 Dezimalstellen! 
-      string logText = $"{totalMeasurements}\t{transform.position.x}\t{transform.position.y}";
-      logText += $"\t{beaconDirectionsDistorted[0].x}\t{beaconDirectionsDistorted[0].y}\t{STD}";
-      logText += $"\t{beaconDirectionsDistorted[1].x}\t{beaconDirectionsDistorted[1].y}\t{STD}";
-      logText += $"\t{beaconDirectionsDistorted[2].x}\t{beaconDirectionsDistorted[2].y}\t{STD}";
-      using (StreamWriter writer = new StreamWriter(logFilePath, true))
-      {
-          writer.WriteLine(logText);
-      }
-    }
 
-    /*
-    For semicolon-delimiter
-
-    void WriteLog(){
-      // runde auf 3 Dezimalstellen!
-      string logText = $"{totalMeasurements};{transform.position.x};{transform.position.y}";
-      logText += $";{beaconDirectionsDistorted[0].x};{beaconDirectionsDistorted[0].y};{STD}";
-      logText += $";{beaconDirectionsDistorted[1].x};{beaconDirectionsDistorted[1].y};{STD}";
-      logText += $";{beaconDirectionsDistorted[2].x};{beaconDirectionsDistorted[2].y};{STD}";
-      using (StreamWriter writer = new StreamWriter(logFilePath, true))
-      {
-          writer.WriteLine(logText);
-      }
-    }
+    /* The REAL CSV log function.
+    -----------------------------
+    'Zeit_Index',
+    'X_GT',  (X-Koordinate Ground Truth)
+    'Y_GT',  (Y-Koordinate Ground Truth)
+    'Richtung_X_B0', 'Richtung_Y_B0', 'STD_Grad_B0',  (Daten Beacon 0)
+    'Richtung_X_B1', 'Richtung_Y_B1', 'STD_Grad_B1',  (Daten  Beacon 1)
+    'Richtung_X_B2', 'Richtung_Y_B2', 'STD_Grad_B2'   (Daten für Beacon 2)
     */
+    void WriteLog()
+    {
+        // runde auf 3 Dezimalstellen! 
+        string logText = $"{totalMeasurements}\t{transform.position.x}\t{transform.position.y}";
+
+        logText += $"\t{beaconDirectionsDistorted[0].x}\t{beaconDirectionsDistorted[0].y}\t{STD}";
+        logText += $"\t{beaconDirectionsDistorted[1].x}\t{beaconDirectionsDistorted[1].y}\t{STD}";
+        logText += $"\t{beaconDirectionsDistorted[2].x}\t{beaconDirectionsDistorted[2].y}\t{STD}";
+
+        using (StreamWriter writer = new StreamWriter(logFilePath, true))
+        {
+            writer.WriteLine(logText);
+        }
+    }
 }
