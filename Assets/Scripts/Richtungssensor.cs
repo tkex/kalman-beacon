@@ -120,7 +120,8 @@ public class Richtungssensor : MonoBehaviour
     }
 
     void WriteLog(){
-      string logText = $"{totalMeasurements}";
+      // runde auf 3 Dezimalstellen! 
+      string logText = $"{totalMeasurements}\t{transform.position.x}\t{transform.position.y}";
       logText += $"\t{beaconDirectionsDistorted[0].x}\t{beaconDirectionsDistorted[0].y}\t{STD}";
       logText += $"\t{beaconDirectionsDistorted[1].x}\t{beaconDirectionsDistorted[1].y}\t{STD}";
       logText += $"\t{beaconDirectionsDistorted[2].x}\t{beaconDirectionsDistorted[2].y}\t{STD}";
