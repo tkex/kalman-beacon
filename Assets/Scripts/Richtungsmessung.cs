@@ -46,19 +46,32 @@ public class Richtungsmessung
 
   public string GetCSVRepresentation()
   {
-    string csvString = $"{this.beaconFlag}\t{this.timestamp}\t{this.beaconId}\t{this.beaconPos}\t{this.angleGroundTruth}\t{this.angleDistorted}\t{this.sensorSTD}\t{this.headingAngleGroundTruth}\t{this.headingAngleDistorted}\t{this.compassSTD}\t{this.propulsion}\t{this.rudderAngle}";
-    
-    return csvString;
+      // Konvertieren beaconPos (Vector3) in  x, y, und z (für Python)
+      string beaconPosX = this.beaconPos.x.ToString();
+      string beaconPosY = this.beaconPos.y.ToString();
+      string beaconPosZ = this.beaconPos.z.ToString();
+      
+      // Erstellen des CSV-Strings
+      string csvString = $"{this.beaconFlag}\t{this.timestamp}\t{this.beaconId}\t{beaconPosX}\t{beaconPosY}\t{beaconPosZ}\t{this.angleGroundTruth}\t{this.angleDistorted}\t{this.sensorSTD}\t{this.headingAngleGroundTruth}\t{this.headingAngleDistorted}\t{this.compassSTD}\t{this.propulsion}\t{this.rudderAngle}";
+      
+      return csvString;
   }
+
 
   /*
   For Semicolon-delimiter:
 
   public string GetCSVRepresentation()
   {
-    string csvString = $"{this.beaconFlag};{this.timestamp};{this.beaconId};{this.beaconPos};{this.angleGroundTruth};{this.angleDistorted};{this.sensorSTD};{this.headingAngleGroundTruth};{this.headingAngleDistorted};{this.compassSTD};{this.propulsion};{this.rudderAngle}";
-    
-    return csvString;
+      // Konvertieren des Vector3 beaconPos in drei separate Werte für x, y, und z
+      string beaconPosX = this.beaconPos.x.ToString();
+      string beaconPosY = this.beaconPos.y.ToString();
+      string beaconPosZ = this.beaconPos.z.ToString();
+      
+      // Erstellen des CSV-Strings mit den separaten Werten
+      string csvString = $"{this.beaconFlag};{this.timestamp};{this.beaconId};{beaconPosX};{beaconPosY};{beaconPosZ};{this.angleGroundTruth};{this.angleDistorted};{this.sensorSTD};{this.headingAngleGroundTruth};{this.headingAngleDistorted};{this.compassSTD};{this.propulsion};{this.rudderAngle}";
+      
+      return csvString;
   }
   */
 
