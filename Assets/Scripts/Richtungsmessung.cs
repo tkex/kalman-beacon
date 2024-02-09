@@ -46,8 +46,20 @@ public class Richtungsmessung
 
   public string GetCSVRepresentation()
   {
+    string csvString = $"{this.beaconFlag}\t{this.timestamp}\t{this.beaconId}\t{this.beaconPos}\t{this.angleGroundTruth}\t{this.angleDistorted}\t{this.sensorSTD}\t{this.headingAngleGroundTruth}\t{this.headingAngleDistorted}\t{this.compassSTD}\t{this.propulsion}\t{this.rudderAngle}";
+    
+    return csvString;
+  }
+
+  /*
+  For Semicolon-delimiter:
+
+  public string GetCSVRepresentation()
+  {
     string csvString = $"{this.beaconFlag};{this.timestamp};{this.beaconId};{this.beaconPos};{this.angleGroundTruth};{this.angleDistorted};{this.sensorSTD};{this.headingAngleGroundTruth};{this.headingAngleDistorted};{this.compassSTD};{this.propulsion};{this.rudderAngle}";
     
     return csvString;
   }
+  */
+
 }
