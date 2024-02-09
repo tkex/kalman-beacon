@@ -31,21 +31,40 @@ print("Intersection 1-3:", intersection_1_3)
 print("Intersection 2-3:", intersection_2_3)
 
 
-# jetzt aus diesen 3 Punkten den Punkten ein Dreieck bilden und 
+# jetzt aus diesen 3 Punkten den Punkten ein Dreieck bzw. eine Linie bzw. einen Punkt bilden und Mittelpunkt bestimmen
 
-x1 = intersection_1_2[0] if intersection_1_2 is not None else 0
-x2 = intersection_1_3[0] if intersection_1_3 is not None else 0
-x3 = intersection_2_3[0] if intersection_2_3 is not None else 0
+none_count = 0
 
-y1 = intersection_1_2[1] if intersection_1_2 is not None else 0
-y2 = intersection_1_3[1] if intersection_1_3 is not None else 0
-y3 = intersection_2_3[1] if intersection_2_3 is not None else 0
+if intersection_1_2 is None:
+    x1 = 0
+    y1 = 0
+    none_count += 1
+else:
+    x1 = intersection_1_2[0]
+    y1 = intersection_1_2[1]
 
+if intersection_1_3 is None:
+    x2 = 0
+    y2 = 0
+    none_count += 1
+else:
+    x2 = intersection_1_3[0]
+    y2 = intersection_1_3[1]
 
-# find midpoint of intersections
-midpoint_x = (x1 + x2 + x3)/3;
-midpoint_y = (y1 + y2 + y3)/3;
+if intersection_2_3 is None:
+    x3 = 0
+    y3 = 0
+    none_count += 1
+else:
+    x3 = intersection_2_3[0]
+    y3 = intersection_2_3[1]
 
-midpoint = np.array([midpoint_x, midpoint_y])
+# fail, falls aus irgendeinem Grund alle Schnittpunkte None waren
+if (none_count == 3):
+    print("Failed to determine midpoint")
+else:
+    midpoint_x = (x1 + x2 + x3)/(3 - none_count);
+    midpoint_y = (y1 + y2 + y3)/(3 - none_count);
+    midpoint = np.array([midpoint_x, midpoint_y])
 
-print("Midpoint:", midpoint)
+    print("Midpoint:", midpoint)
