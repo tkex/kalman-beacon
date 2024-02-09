@@ -119,15 +119,17 @@ public class Richtungssensor : MonoBehaviour
         return gaussianValue;
     }
 
-    void WriteLog(){
-      // runde auf 3 Dezimalstellen! 
-      string logText = $"{totalMeasurements}\t{transform.position.x}\t{transform.position.y}";
-      logText += $"\t{beaconDirectionsDistorted[0].x}\t{beaconDirectionsDistorted[0].y}\t{STD}";
-      logText += $"\t{beaconDirectionsDistorted[1].x}\t{beaconDirectionsDistorted[1].y}\t{STD}";
-      logText += $"\t{beaconDirectionsDistorted[2].x}\t{beaconDirectionsDistorted[2].y}\t{STD}";
-      using (StreamWriter writer = new StreamWriter(logFilePath, true))
-      {
-          writer.WriteLine(logText);
-      }
+  void WriteLog(){
+    // Runde auf 3 Dezimalstellen!
+    string logText = $"{totalMeasurements};{transform.position.x};{transform.position.y}";
+
+    // Delimiter: set as semicolon ;
+    logText += $";{beaconDirectionsDistorted[0].x};{beaconDirectionsDistorted[0].y};{STD}";
+    logText += $";{beaconDirectionsDistorted[1].x};{beaconDirectionsDistorted[1].y};{STD}";
+    logText += $";{beaconDirectionsDistorted[2].x};{beaconDirectionsDistorted[2].y};{STD}";
+    using (StreamWriter writer = new StreamWriter(logFilePath, true))
+    {
+        writer.WriteLine(logText);
     }
+  }
 }
