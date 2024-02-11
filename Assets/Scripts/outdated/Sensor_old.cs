@@ -5,7 +5,7 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.Events;
 
-public class Sensor : MonoBehaviour
+public class SensorOld : MonoBehaviour
 {
 
     public float sensorAccStandardDeviation = 3f;

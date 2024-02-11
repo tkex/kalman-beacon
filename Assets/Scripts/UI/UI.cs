@@ -12,7 +12,7 @@ public class UI : MonoBehaviour
     void Start()
     {
         var player = GameObject.FindGameObjectWithTag("Player");
-        var sensorScript = player.GetComponent<Sensor>();
+        var sensorScript = player.GetComponent<SensorOld>();
         var boatScript = player.GetComponent<Boat>();
         sensorScript.conductedMeasurement.AddListener(UpdateStatsWithMeasurement);
         sensorScript.sendSensorInfo.AddListener(UpdateSensorInfo);

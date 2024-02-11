@@ -11,7 +11,7 @@ public class WebSocketClient : MonoBehaviour
     // Reference.
     [Header("Reference Settings")]    
     [Tooltip("Reference to the sensor script.")]
-    public Sensor sensor;
+    public SensorOld sensor;
 
 
     [Header("WebSocket Settings")]
