@@ -14,10 +14,10 @@ public class Messsensor: MonoBehaviour
     public int abtastrateInHz = 10;
     private float abtastInterval;
     private float timeAtLastMeasurement = 0f; 
-    private int totalMeasurements = 0; 
-    // Log File Paths
-    private string simpleLogFilePath = Application.dataPath + "/simple-log.csv";
-    private string extendedLogFilePath = Application.dataPath + "/extended-log.csv";
+    private int totalMeasurements = 0;
+
+    // Log File Path
+    private string extendedLogFilePath = Application.dataPath + "/log.csv";
 
     // Heading
     private float heading;  // Winkeländerung zur Ursprungsausrichtung (Norden = 0°)
@@ -43,6 +43,8 @@ public class Messsensor: MonoBehaviour
     {
         abtastInterval = 1f / abtastrateInHz;
         timeAtLastMeasurement = Time.realtimeSinceStartup;
+
+        DeleteInitialLogFile();
     }
 
     void Update()
@@ -52,6 +54,34 @@ public class Messsensor: MonoBehaviour
             PerformMeasurement();
             timeAtLastMeasurement = Time.realtimeSinceStartup;
         }
+    }
+
+    void DeleteInitialLogFile()
+    {
+        File.Delete(extendedLogFilePath);    
+        //Debug.Log(extendedLogFilePath);
+
+        // Log proper beacon positions
+        Vector3 beacon0_pos = beacons[0].transform.position;
+        Vector3 beacon1_pos = beacons[1].transform.position;
+        Vector3 beacon2_pos = beacons[2].transform.position;
+
+        string logText = "-1";   
+
+        // Individual beacon positions
+        logText += $"\t{beacon0_pos.x}\t{beacon0_pos.y}";
+        logText += $"\t{beacon1_pos.x}\t{beacon1_pos.y}";
+        logText += $"\t{beacon2_pos.x}\t{beacon2_pos.y}";
+
+        // Initial state of boat (x, y Position aka GT)
+        logText += $"\t{transform.position.x}\t{transform.position.y}";
+ 
+        logText = logText.Replace(',', '.');
+
+        using (StreamWriter writer = new StreamWriter(extendedLogFilePath, true))
+        {
+            writer.WriteLine(logText);
+        }        
     }
 
     void PerformMeasurement()
@@ -65,7 +95,7 @@ public class Messsensor: MonoBehaviour
         // Debug.Log("Beacon 1: " + beaconAnglesDistorted[1] + ": "  + beaconDirectionsDistorted[1].ToString());
         // Debug.Log("Beacon 2: " + beaconAnglesDistorted[2] + ": "  + beaconDirectionsDistorted[2].ToString());
 
-        WriteSimpleLog();
+       
         WriteExtendedLog();
 
         totalMeasurements += 1;
@@ -79,35 +109,39 @@ public class Messsensor: MonoBehaviour
       headingDistorted = GenerateRandomGaussian(heading, headingSTD);
     }
 
-    void CalcAndSetBeaconAngles()
+    private void CalcAndSetBeaconAngles()
     {
-        beaconAngles[0] = GetRelativeAngleToPosition(beacons[0].transform.position);
-        beaconAngles[1] = GetRelativeAngleToPosition(beacons[1].transform.position);
-        beaconAngles[2] = GetRelativeAngleToPosition(beacons[2].transform.position);
-
-        beaconAnglesDistorted[0] = GenerateRandomGaussian(beaconAngles[0], beaconStds[0]);
-        beaconAnglesDistorted[1] = GenerateRandomGaussian(beaconAngles[1], beaconStds[1]);
-        beaconAnglesDistorted[2] = GenerateRandomGaussian(beaconAngles[2], beaconStds[2]);
+        for (int i = 0; i < beaconAngles.Length; i++)
+        {
+            beaconAngles[i] = GetRelativeAngleToPosition(beacons[i].transform.position);
+            beaconAnglesDistorted[i] = GenerateRandomGaussian(beaconAngles[i], beaconStds[i]);
+        }
     }
+
 
     void CalcAndSetBeaconDirections()
     {
-        // FRAGE: Warum funktioniert das hier? 
+        // FRAGE: Warum funktioniert das hier?
         // FRAGE: ist das hier mit ein Grund, weshalb GetRelativeAngleToPosition transform.right verwendet?
+
         // undistorted directions
-        float rad = 3.14159f * beaconAngles[0] / 180.0f;
+        float rad = Mathf.PI * beaconAngles[0] / 180.0f;
         beaconDirections[0] = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
-        rad = 3.14159f * beaconAngles[1] / 180.0f;
+
+        rad = Mathf.PI * beaconAngles[1] / 180.0f;
         beaconDirections[1] = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
-        rad = 3.14159f * beaconAngles[2] / 180.0f;
+
+        rad = Mathf.PI * beaconAngles[2] / 180.0f;
         beaconDirections[2] = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
 
         // distorted directions
-        rad = 3.14159f * beaconAnglesDistorted[0] / 180.0f;
+        rad = Mathf.PI * beaconAnglesDistorted[0] / 180.0f;
+
         beaconDirectionsDistorted[0] = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
-        rad = 3.14159f * beaconAnglesDistorted[1] / 180.0f;
+        rad = Mathf.PI * beaconAnglesDistorted[1] / 180.0f;
         beaconDirectionsDistorted[1] = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
-        rad = 3.14159f * beaconAnglesDistorted[2] / 180.0f;
+
+        rad = Mathf.PI * beaconAnglesDistorted[2] / 180.0f;
         beaconDirectionsDistorted[2] = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
     }
 
@@ -140,12 +174,16 @@ public class Messsensor: MonoBehaviour
     {
         // FRAGE: Wieso right und nicht up?
         Vector2 xAxis = new Vector2(transform.right.x, transform.right.y);
+
         // float localAngle = transform.localRotation.eulerAngles.z;
         Vector3 direction = position - transform.position;
+
         // Project the direction vector onto the XY plane (ignoring the Z component)
         Vector2 direction2D = new Vector2(direction.x, direction.y);
+
         // float angle = Vector2.SignedAngle(Vector2.down, direction2D) - localAngle;
         float angle = Vector2.SignedAngle(xAxis, direction2D);
+
         // Ensure the angle is positive (between 0 and 360 degrees)
         // return (angle >= 0) ? angle : angle += 360f;
         return angle;
@@ -157,38 +195,13 @@ public class Messsensor: MonoBehaviour
         float u2 = 1f - UnityEngine.Random.value; // Another uniform random value
         // Box-Muller transform to get two independent standard normal random variables
         float z0 = Mathf.Sqrt(-2f * Mathf.Log(u1)) * Mathf.Cos(2f * Mathf.PI * u2);
+
         // Scale and shift to get the desired mean and standard deviation
         float gaussianValue = mean + z0 * std;
 
         return gaussianValue;
     }
 
-
-    /* The REAL CSV log functions.
-    -----------------------------
-    Simple log format:
-    'Zeit_Index',
-    'X_GT',  (X-Koordinate Ground Truth)
-    'Y_GT',  (Y-Koordinate Ground Truth)
-    'Richtung_X_B0', 'Richtung_Y_B0', 'STD_Grad_B0',  (Daten Beacon 0)
-    'Richtung_X_B1', 'Richtung_Y_B1', 'STD_Grad_B1',  (Daten  Beacon 1)
-    'Richtung_X_B2', 'Richtung_Y_B2', 'STD_Grad_B2'   (Daten für Beacon 2)
-    */
-    void WriteSimpleLog()
-    {
-        // TODO: runde auf 3 Dezimalstellen! 
-        string logText = $"{totalMeasurements}\t{transform.position.x}\t{transform.position.y}";
-        logText += $"\t{beaconDirectionsDistorted[0].x}\t{beaconDirectionsDistorted[0].y}\t{beaconStds[0]}";
-        logText += $"\t{beaconDirectionsDistorted[1].x}\t{beaconDirectionsDistorted[1].y}\t{beaconStds[1]}";
-        logText += $"\t{beaconDirectionsDistorted[2].x}\t{beaconDirectionsDistorted[2].y}\t{beaconStds[2]}";
-
-        logText = logText.Replace(',', '.');
-
-        using (StreamWriter writer = new StreamWriter(simpleLogFilePath, true))
-        {
-            writer.WriteLine(logText);
-        }
-    }
 
     /*
     Extended log format:
@@ -232,18 +245,18 @@ public class Messsensor: MonoBehaviour
         // TODO: setze indixes händisch um Fehler zu vermeiden
         string logText = $"{totalMeasurements}";
 
-        // position
+        // Position
         logText += $"\t{transform.position.x}\t{transform.position.y}";
 
-        // heading
+        // Heading
         logText += $"\t{heading}\t{headingDistorted}\t{headingSTD}";
 
-        // angles
+        // Angles
         logText += $"\t{beaconAngles[0]}\t{beaconAnglesDistorted[0]}\t{beaconStds[0]}";
         logText += $"\t{beaconAngles[1]}\t{beaconAnglesDistorted[1]}\t{beaconStds[1]}";
         logText += $"\t{beaconAngles[2]}\t{beaconAnglesDistorted[2]}\t{beaconStds[2]}";
 
-        // directions
+        // Directions
         logText += $"\t{beaconDirections[0].x}\t{beaconDirections[0].y}";
         logText += $"\t{beaconDirectionsDistorted[0].x}\t{beaconDirectionsDistorted[0].y}\t{beaconStds[0]}";
         logText += $"\t{beaconDirections[1].x}\t{beaconDirections[1].y}";
@@ -251,11 +264,13 @@ public class Messsensor: MonoBehaviour
         logText += $"\t{beaconDirections[2].x}\t{beaconDirections[2].y}";
         logText += $"\t{beaconDirectionsDistorted[2].x}\t{beaconDirectionsDistorted[2].y}\t{beaconStds[2]}";
       
-        // absolute distances to the beacons
+        // Absolute distances to the beacons
         logText += $"\t{beaconEntfernungen[0]}\t{beaconEntfernungenDistorted[0]}\t{beaconStds[0]}";
         logText += $"\t{beaconEntfernungen[1]}\t{beaconEntfernungenDistorted[1]}\t{beaconStds[1]}";
         logText += $"\t{beaconEntfernungen[2]}\t{beaconEntfernungenDistorted[2]}\t{beaconStds[2]}";
 
+
+        // Replace comma with dots for proper log file seperation into columns
         logText = logText.Replace(',', '.');
 
         using (StreamWriter writer = new StreamWriter(extendedLogFilePath, true))

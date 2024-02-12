@@ -1788,11 +1788,11 @@ MonoBehaviour:
   - {fileID: 684380205}
   - {fileID: 882134017}
   abtastrateInHz: 10
-  headingSTD: 1
+  headingSTD: 0.1
   beaconStds:
-  - 1
-  - 1
-  - 1
+  - 0.1
+  - 0.1
+  - 0.1
 --- !u!1 &420949992
 GameObject:
   m_ObjectHideFlags: 0
