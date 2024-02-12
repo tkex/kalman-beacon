@@ -21,22 +21,22 @@ public class Messsensor: MonoBehaviour
 
     // Heading
     private float heading;  // Winkeländerung zur Ursprungsausrichtung (Norden = 0°)
-    private float headingDistorted; //
+    private float headingDistorted;
     public float headingSTD = 1f;
     
-    // Angles (TODO: unbounded Angles)
+    // Angles
     private float[] beaconAngles = new float[3];   //  in ships local modelspace, deg
     private float[] beaconAnglesDistorted = new float[3];  //   in ships local modelspace, deg
     
-    // Directions (werden aus angles berechnet)
+    // Directions (werden aus Angles berechnet)
     private Vector2[] beaconDirections = new Vector2[3]; // in ships local modelspace  
     private Vector2[] beaconDirectionsDistorted = new Vector2[3]; // in ships local modelspace  
 
-    // Entfernung (skalierte directions)
+    // Entfernung (skalierte Directions)
     private float[] beaconEntfernungen = new float[3];
     private float[] beaconEntfernungenDistorted = new float[3];
 
-    public float[] beaconStds = new float[3]{1, 1, 1}; // verrauscht sämtliche Messdaten für jeweilges Beacon
+    public float[] beaconStds = new float[3]{1, 1, 1}; // Verrauscht sämtliche Messdaten für jeweilges Beacon
     
 
     void Start()
@@ -58,22 +58,41 @@ public class Messsensor: MonoBehaviour
 
     void DeleteInitialLogFile()
     {
-        File.Delete(extendedLogFilePath);    
+
+        // Make sure to delete old file
+        File.Delete(extendedLogFilePath);
         //Debug.Log(extendedLogFilePath);
+
+        /* 
+         * *** ONLY THE FIRST ROW IN THE LOG ***
+         * => 8 values for Python read in.
+        */
 
         // Log proper beacon positions
         Vector3 beacon0_pos = beacons[0].transform.position;
         Vector3 beacon1_pos = beacons[1].transform.position;
         Vector3 beacon2_pos = beacons[2].transform.position;
 
-        string logText = "-1";   
 
-        // Individual beacon positions
+
+        // *** LOGGING STARTS HERE ***
+
+        // First columns for identifying
+        string logText = "-1";
+
+        /* 
+         * Individual beacon positions:
+         * beacon_0_pos_x, beacon_0_pos_y 
+         * beacon_1_pos_x, beacon_1_pos_y 
+         * beacon_2_pos_x, beacon_2_pos_y 
+        */
+
         logText += $"\t{beacon0_pos.x}\t{beacon0_pos.y}";
         logText += $"\t{beacon1_pos.x}\t{beacon1_pos.y}";
         logText += $"\t{beacon2_pos.x}\t{beacon2_pos.y}";
 
         // Initial state of boat (x, y Position aka GT)
+        // Position x, Position y
         logText += $"\t{transform.position.x}\t{transform.position.y}";
  
         logText = logText.Replace(',', '.');
@@ -205,6 +224,8 @@ public class Messsensor: MonoBehaviour
 
     /*
     Extended log format:
+
+    (ERST AB 2. ZEILE. ERSTE ZEILE IST SIEHE LogFile-Funktion)
 
     -- Zeit
     [0]  'Zeit_Index',
