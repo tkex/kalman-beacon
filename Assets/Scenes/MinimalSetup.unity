@@ -1662,7 +1662,6 @@ GameObject:
   - component: {fileID: 396386508}
   - component: {fileID: 396386507}
   - component: {fileID: 396386509}
-  - component: {fileID: 396386510}
   - component: {fileID: 396386511}
   m_Layer: 0
   m_Name: Boat
@@ -1764,29 +1763,6 @@ MonoBehaviour:
   sendBoatInfo:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &396386510
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 396386506}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97db8f12a6637df4a80053af0adcc5a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sensorAccStandardDeviation: 0.01
-  compassAccStandardDeviation: 0.01
-  conductedMeasurement:
-    m_PersistentCalls:
-      m_Calls: []
-  sendSensorInfo:
-    m_PersistentCalls:
-      m_Calls: []
-  onNewMeasurement:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &396386511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1812,7 +1788,11 @@ MonoBehaviour:
   - {fileID: 684380205}
   - {fileID: 882134017}
   abtastrateInHz: 10
-  STD: 1
+  headingSTD: 1
+  beaconStds:
+  - 1
+  - 1
+  - 1
 --- !u!1 &420949992
 GameObject:
   m_ObjectHideFlags: 0
@@ -2732,7 +2712,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &651986625
 Transform:
   m_ObjectHideFlags: 0

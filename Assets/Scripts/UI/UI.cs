@@ -12,13 +12,11 @@ public class UI : MonoBehaviour
     void Start()
     {
         var player = GameObject.FindGameObjectWithTag("Player");
-        var sensorScript = player.GetComponent<SensorOld>();
         var boatScript = player.GetComponent<Boat>();
-        sensorScript.conductedMeasurement.AddListener(UpdateStatsWithMeasurement);
-        sensorScript.sendSensorInfo.AddListener(UpdateSensorInfo);
         boatScript.sendBoatInfo.AddListener(UpdateBoatInfo);
     }
-
+    
+    // TODO: implementiere wieder mit neuen Messungen
     void UpdateStatsWithMeasurement(Measurement measurement)
     {
         if (beaconStatsScripts[measurement.beaconId])

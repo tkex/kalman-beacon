@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class MessSensor: MonoBehaviour
+public class Messsensor: MonoBehaviour
 {
 
     public GameObject[] beacons;
+    public GameObject[] beaconDirPivots;
+    public GameObject[] beaconDirectionPoints;
 
     // Sensor Settings
     public int abtastrateInHz = 10;
     private float abtastInterval;
     private float timeAtLastMeasurement = 0f; 
-    private int totalMeasurements = 0;
+    private int totalMeasurements = 0; 
     // Log File Paths
     private string simpleLogFilePath = Application.dataPath + "/simple-log.csv";
     private string extendedLogFilePath = Application.dataPath + "/extended-log.csv";
