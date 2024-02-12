@@ -11,14 +11,14 @@ public class Richtungssensor : MonoBehaviour
     public GameObject[] beaconDirectionPoints;
     public int abtastrateInHz = 10;
     private float abtastInterval;
-    private float timeSinceLastMeasurement = 0f;
+    private float time = 0f;
     private int totalMeasurements = 0;
 
     public float STD = 1f;
 
-    private float[] beaconAnglesGT;
-    private float[] beaconAnglesDistorted;
-    private Vector2[] beaconDirectionsDistorted;
+    private float[] beaconAngles = new float[3];   //  in ships local modelspace, deg
+    private float[] beaconAnglesDistorted = new float[3];  //   in ships local modelspace, deg
+    private Vector2[] beaconDirectionsDistorted = new Vector2[3]; // in ships local modelspace
 
     private string logFilePath = Application.dataPath + "/log.csv";
 
@@ -26,34 +26,48 @@ public class Richtungssensor : MonoBehaviour
     void Start()
     {
         abtastInterval = 1f / abtastrateInHz;
-        beaconAnglesGT = new float[3];
+        beaconAngles = new float[3];
         beaconAnglesDistorted = new float[3];
         beaconDirectionsDistorted = new Vector2[3];
+        time = Time.realtimeSinceStartup;
     }
 
     void Update()
     {
-        timeSinceLastMeasurement += Time.deltaTime;
-        if (timeSinceLastMeasurement >= abtastInterval)
+        if ((Time.realtimeSinceStartup - time) >= abtastInterval)
         {
             PerformMeasurement();
-            VisualizeLatestMeasurement();
-            timeSinceLastMeasurement = 0;
+            //VisualizeLatestMeasurement();
+            time = Time.realtimeSinceStartup;
         }
     }
 
     void PerformMeasurement()
     {
-        beaconAnglesGT[0] = GetRelativeAngleToPosition(beacons[0].transform.position);
-        beaconAnglesGT[1] = GetRelativeAngleToPosition(beacons[1].transform.position);
-        beaconAnglesGT[2] = GetRelativeAngleToPosition(beacons[2].transform.position);
+        beaconAngles[0] = GetRelativeAngleToPosition(beacons[0].transform.position);
+        beaconAngles[1] = GetRelativeAngleToPosition(beacons[1].transform.position);
+        beaconAngles[2] = GetRelativeAngleToPosition(beacons[2].transform.position);
 
-        beaconAnglesDistorted[0] = GenerateRandomGaussian(beaconAnglesGT[0], STD);
-        beaconAnglesDistorted[1] = GenerateRandomGaussian(beaconAnglesGT[1], STD);
-        beaconAnglesDistorted[2] = GenerateRandomGaussian(beaconAnglesGT[2], STD);
+        beaconAnglesDistorted[0] = GenerateRandomGaussian(beaconAngles[0], STD);
+        beaconAnglesDistorted[1] = GenerateRandomGaussian(beaconAngles[1], STD);
+        beaconAnglesDistorted[2] = GenerateRandomGaussian(beaconAngles[2], STD);
 
-        SetBeaconDirPivotsByDistortedAngles();
-        SetBeaconDirections();
+        float rad = 3.14159f * beaconAnglesDistorted[0] / 180.0f;
+        beaconDirectionsDistorted[0] = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+        
+        rad = 3.14159f * beaconAnglesDistorted[1] / 180.0f;
+        beaconDirectionsDistorted[1] = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+        
+        rad = 3.14159f * beaconAnglesDistorted[2] / 180.0f;
+        beaconDirectionsDistorted[2] = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+
+        
+        Debug.Log("Beacon 0: " + beaconAnglesDistorted[0] + ": " + beaconDirectionsDistorted[0].ToString());
+        Debug.Log("Beacon 1: " + beaconAnglesDistorted[1] + ": "  + beaconDirectionsDistorted[1].ToString());
+        Debug.Log("Beacon 2: " + beaconAnglesDistorted[2] + ": "  + beaconDirectionsDistorted[2].ToString());
+
+        //SetBeaconDirPivotsByDistortedAngles();
+        //SetBeaconDirections();
 
         WriteLog();
 
@@ -62,13 +76,13 @@ public class Richtungssensor : MonoBehaviour
 
     float GetRelativeAngleToPosition(Vector3 position)
     {
+        Vector2 xAxis = new Vector2(transform.right.x, transform.right.y);
         // float localAngle = transform.localRotation.eulerAngles.z;
-        Vector3 direction = transform.position - position;
+        Vector3 direction = position - transform.position;
         // Project the direction vector onto the XY plane (ignoring the Z component)
         Vector2 direction2D = new Vector2(direction.x, direction.y);
         // float angle = Vector2.SignedAngle(Vector2.down, direction2D) - localAngle;
-        float angle = Vector2.SignedAngle(Vector2.down, direction2D);
-        // TODO: das hier müsste doch eigentlich auch funktionieren(?)
+        float angle = Vector2.SignedAngle(xAxis, direction2D);
         // Ensure the angle is positive (between 0 and 360 degrees)
         return (angle >= 0) ? angle : angle += 360f;
     }
@@ -141,6 +155,10 @@ public class Richtungssensor : MonoBehaviour
         logText += $"\t{beaconDirectionsDistorted[0].x}\t{beaconDirectionsDistorted[0].y}\t{STD}";
         logText += $"\t{beaconDirectionsDistorted[1].x}\t{beaconDirectionsDistorted[1].y}\t{STD}";
         logText += $"\t{beaconDirectionsDistorted[2].x}\t{beaconDirectionsDistorted[2].y}\t{STD}";
+
+        logText = logText.Replace(',', '.');
+
+        //Debug.Log("Log: " + logText);
 
         using (StreamWriter writer = new StreamWriter(logFilePath, true))
         {

@@ -7,7 +7,7 @@ public class Boat : MonoBehaviour
 {
     public float maxSpeed = 10f;
     public float accSpeed = 2.5f; 
-    public float propulsion = 0f;
+    public float propulsion = 1f;
 
     public float rudderMaxAngle = 45f;
     public float rudderTurnSpeed = 25f;
