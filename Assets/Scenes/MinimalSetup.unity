@@ -1754,7 +1754,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 10
   accSpeed: 2.5
-  propulsion: 0
+  propulsion: 1
   rudderMaxAngle: 45
   rudderTurnSpeed: 25
   rudderReturnSpeed: 10
