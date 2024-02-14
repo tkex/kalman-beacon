@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Beacon
+  - Beacon_0
+  - Beacon_1
+  - Beacon_2
   layers:
   - Default
   - TransparentFX

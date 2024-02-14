@@ -11,6 +11,7 @@ public class Beacon : MonoBehaviour
     private float broadcastInterval;
     private float timeAtLastBroadcast = 0f;
     public float beaconStd = 1;
+    public bool beaconIsActive = true;
 
     public UnityEvent<int, float> broadCastEvent;
 
@@ -30,7 +31,6 @@ public class Beacon : MonoBehaviour
 
     void BroadcastSignal()
     {
-        // TODO: frequenz in millisekunden
         broadCastEvent.Invoke(beaconID, beaconStd);
     }
 }

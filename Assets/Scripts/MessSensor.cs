@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class MessSensor : MonoBehaviour
+abstract public class MessSensor : MonoBehaviour
 {
 
     public GameObject[] beacons;
-    public GameObject[] beaconDirPivots;
-    public GameObject[] beaconDirectionPoints;
 
     // Sensor Settings
     public int abtastrateInHz = 10;
@@ -17,7 +15,7 @@ public class MessSensor : MonoBehaviour
     private int totalMeasurements = 0;
 
     // Log File Path
-    private string extendedLogFilePath = Application.dataPath + "/log.csv";
+    abstract protected string logFilePath { get; }
 
     // Heading
     private float heading;  // Winkeländerung zur Ursprungsausrichtung (Norden = 0°)
@@ -37,23 +35,15 @@ public class MessSensor : MonoBehaviour
     private float[] beaconEntfernungenDistorted = new float[3];
 
     public float[] beaconStds = new float[3] { 1, 1, 1 }; // Verrauscht sämtliche Messdaten für jeweilges Beacon
-    public float beaconVeryHighFallbackStd = 90f;
 
 
-    void Start()
+    protected void Start()
     {
         abtastInterval = 1f / abtastrateInHz;
         timeAtLastMeasurement = Time.realtimeSinceStartup;
 
         DeleteInitialLogFile();
-        beaconStds = new float[3] { beaconVeryHighFallbackStd, beaconVeryHighFallbackStd, beaconVeryHighFallbackStd };
-
-        // Listen to beacons
-        for (int i = 0; i < beacons.Length; i++)
-        {
-            Beacon beaconScript = beacons[i].GetComponent<Beacon>();
-            beaconScript.broadCastEvent.AddListener(SetBeaconFlagByBeaconId);
-        }
+        // beaconStds = new float[3] { beaconVeryHighFallbackStd, beaconVeryHighFallbackStd, beaconVeryHighFallbackStd };
     }
 
     void Update()
@@ -67,10 +57,9 @@ public class MessSensor : MonoBehaviour
 
     void DeleteInitialLogFile()
     {
-
         // Make sure to delete old file
-        File.Delete(extendedLogFilePath);
-        //Debug.Log(extendedLogFilePath);
+        File.Delete(logFilePath);
+        //Debug.Log(logFilePath);
 
         /* 
          * *** ONLY THE FIRST ROW IN THE LOG ***
@@ -106,20 +95,15 @@ public class MessSensor : MonoBehaviour
 
         logText = logText.Replace(',', '.');
 
-        using (StreamWriter writer = new StreamWriter(extendedLogFilePath, true))
+        using (StreamWriter writer = new StreamWriter(logFilePath, true))
         {
             writer.WriteLine(logText);
         }
     }
 
 
-    void SetBeaconFlagByBeaconId(int beaconId, float beaconSTD)
-    {
-        beaconStds[beaconId] = beaconSTD;
-        Debug.Log($"BROADCAST: {beaconId} - {beaconSTD}");
-    }
 
-    void PerformMeasurement()
+    protected virtual void PerformMeasurement()
     {
         CalcAndSetHeading();
         CalcAndSetBeaconAngles();
@@ -127,11 +111,6 @@ public class MessSensor : MonoBehaviour
         CalcAndSetEntfernungen();
 
         WriteExtendedLog();
-
-        for (int i = 0; i < beaconStds.Length; i++)
-        {
-            beaconStds[i] = beaconVeryHighFallbackStd;
-        }
 
         totalMeasurements += 1;
     }
@@ -284,8 +263,6 @@ public class MessSensor : MonoBehaviour
         logText += $"\t{beaconAngles[1]}\t{beaconAnglesDistorted[1]}\t{beaconStds[1]}";
         logText += $"\t{beaconAngles[2]}\t{beaconAnglesDistorted[2]}\t{beaconStds[2]}";
 
-        Debug.LogWarning($"STDs: {beaconStds[0]} - {beaconStds[1]} - {beaconStds[2]}");
-
         // Directions
         logText += $"\t{beaconDirections[0].x}\t{beaconDirections[0].y}";
         logText += $"\t{beaconDirectionsDistorted[0].x}\t{beaconDirectionsDistorted[0].y}\t{beaconStds[0]}";
@@ -303,7 +280,7 @@ public class MessSensor : MonoBehaviour
         // Replace comma with dots for proper log file seperation into columns
         logText = logText.Replace(',', '.');
 
-        using (StreamWriter writer = new StreamWriter(extendedLogFilePath, true))
+        using (StreamWriter writer = new StreamWriter(logFilePath, true))
         {
             writer.WriteLine(logText);
         }
