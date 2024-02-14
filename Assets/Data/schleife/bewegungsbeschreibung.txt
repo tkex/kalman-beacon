@@ -1,0 +1,12 @@
+- beschleunigen
+- links-kurve 
+- links vor 0 vorbei
+- rechts-kurve
+- oben links von 1 vorbei
+- um 1 herumdrehen (ganzer Kreis)
+- nach unten zwischen 0 und 2 passieren
+- 2 aus
+- danach zwei links-kurven-Schleife durch 0 und 1 durch
+- 2 wieder an
+- rechts heraus
+
