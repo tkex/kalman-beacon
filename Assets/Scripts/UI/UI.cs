@@ -15,19 +15,19 @@ public class UI : MonoBehaviour
         var boatScript = player.GetComponent<Boat>();
         boatScript.sendBoatInfo.AddListener(UpdateBoatInfo);
     }
-    
-    // TODO: implementiere wieder mit neuen Messungen
-    void UpdateStatsWithMeasurement(Measurement measurement)
-    {
-        if (beaconStatsScripts[measurement.beaconId])
-        {
-            beaconStatsScripts[measurement.beaconId].SetStatsWithMeasurement(measurement);
-        }
-        else
-        {
-            Debug.LogWarning($"Kein BeaconStatsScript mit ID {measurement.beaconId}");
-        }
-    }
+
+    // TODO: Measurement is deprecated
+    // void UpdateStatsWithMeasurement(Measurement measurement)
+    // {
+    //     if (beaconStatsScripts[measurement.beaconId])
+    //     {
+    //         beaconStatsScripts[measurement.beaconId].SetStatsWithMeasurement(measurement);
+    //     }
+    //     else
+    //     {
+    //         Debug.LogWarning($"Kein BeaconStatsScript mit ID {measurement.beaconId}");
+    //     }
+    // }
 
     void UpdateSensorInfo(float sensorSTD, float compassSTD, float headingGT)
     {
@@ -36,7 +36,7 @@ public class UI : MonoBehaviour
 
     void UpdateBoatInfo(float propulsion, float rudderAngle)
     {
-        this.boatStats.SetStats( propulsion, rudderAngle);
+        this.boatStats.SetStats(propulsion, rudderAngle);
     }
 
 }

@@ -13,13 +13,14 @@ public class BeaconStats : MonoBehaviour
     public TextMeshProUGUI angle;
     public TextMeshProUGUI angleDistorted;
 
-    public void SetStatsWithMeasurement(Measurement measurement)
-    {
-        this.id.text = measurement.beaconId.ToString();
-        this.position.text = measurement.beaconPos.ToString();
-        this.timestamp.text = measurement.timestamp.ToString();
-        this.flag.text = measurement.beaconFlag.ToString();
-        this.angle.text = measurement.angleGroundTruth.ToString();
-        this.angleDistorted.text = measurement.angleDistorted.ToString();
-    }
+    // TODO: Measurement is deprecated
+    // public void SetStatsWithMeasurement(Measurement measurement)
+    // {
+    //     this.id.text = measurement.beaconId.ToString();
+    //     this.position.text = measurement.beaconPos.ToString();
+    //     this.timestamp.text = measurement.timestamp.ToString();
+    //     this.flag.text = measurement.beaconFlag.ToString();
+    //     this.angle.text = measurement.angleGroundTruth.ToString();
+    //     this.angleDistorted.text = measurement.angleDistorted.ToString();
+    // }
 }

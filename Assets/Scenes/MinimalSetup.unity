@@ -1793,6 +1793,7 @@ MonoBehaviour:
   - 0.1
   - 0.1
   - 0.1
+  beaconVeryHighFallbackStd: 90
 --- !u!1 &420949992
 GameObject:
   m_ObjectHideFlags: 0
@@ -6132,14 +6133,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1753020305}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea70a2e174583554a80b2cda671d620a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   beaconID: 2
-  broadcastFrequency: 10
-  sendBroadcast:
+  broadcastFrequencyInHz: 20
+  beaconStd: 1
+  broadCastEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!212 &1753020308
@@ -7025,14 +7027,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2034384838}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea70a2e174583554a80b2cda671d620a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   beaconID: 1
-  broadcastFrequency: 10
-  sendBroadcast:
+  broadcastFrequencyInHz: 10
+  beaconStd: 1
+  broadCastEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &2144224888
@@ -7127,14 +7130,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2144224888}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea70a2e174583554a80b2cda671d620a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   beaconID: 0
-  broadcastFrequency: 10
-  sendBroadcast:
+  broadcastFrequencyInHz: 4
+  beaconStd: 1
+  broadCastEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1660057539 &9223372036854775807
