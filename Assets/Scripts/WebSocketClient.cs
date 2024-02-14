@@ -9,7 +9,7 @@ public class WebSocketClient : MonoBehaviour
     public Measurement measurementData;
 
     // Reference.
-    [Header("Reference Settings")]    
+    [Header("Reference Settings")]
     [Tooltip("Reference to the sensor script.")]
     public SensorOld sensor;
 
@@ -47,7 +47,7 @@ public class WebSocketClient : MonoBehaviour
         public int beaconId;
         // Important: beaconPos: Vector3 as string since JsonUtility cannot serialize Vector3 directly
         // see below in SendDataBlock
-        public string beaconPos; 
+        public string beaconPos;
         public float angleGroundTruth;
         public float angleDistorted;
         public float sensorSTD;
@@ -72,7 +72,8 @@ public class WebSocketClient : MonoBehaviour
         }
 
         // Add Sensor Listener.
-        sensor.conductedMeasurement.AddListener(HandleNewMeasurement);
+        // TODO: enable again with updated conductedMeasurement-event
+        // sensor.conductedMeasurement.AddListener(HandleNewMeasurement);
 
 
         // *** WEBSOCKET EVENT CONFIGURATION ***
@@ -171,7 +172,7 @@ public class WebSocketClient : MonoBehaviour
         if (websocket.State == WebSocketState.Open && isReadyToSend && measurementData != null)
         {
             string jsonData = SendDataBlock();
-            
+
             await websocket.SendText(jsonData);
 
             Debug.Log("Sending Json Data: " + jsonData);

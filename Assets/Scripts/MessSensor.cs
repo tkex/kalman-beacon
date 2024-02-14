@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class Messsensor: MonoBehaviour
+public class MessSensor : MonoBehaviour
 {
 
     public GameObject[] beacons;
@@ -13,7 +13,7 @@ public class Messsensor: MonoBehaviour
     // Sensor Settings
     public int abtastrateInHz = 10;
     private float abtastInterval;
-    private float timeAtLastMeasurement = 0f; 
+    private float timeAtLastMeasurement = 0f;
     private int totalMeasurements = 0;
 
     // Log File Path
@@ -23,11 +23,11 @@ public class Messsensor: MonoBehaviour
     private float heading;  // Winkeländerung zur Ursprungsausrichtung (Norden = 0°)
     private float headingDistorted;
     public float headingSTD = 1f;
-    
+
     // Angles
     private float[] beaconAngles = new float[3];   //  in ships local modelspace, deg
     private float[] beaconAnglesDistorted = new float[3];  //   in ships local modelspace, deg
-    
+
     // Directions (werden aus Angles berechnet)
     private Vector2[] beaconDirections = new Vector2[3]; // in ships local modelspace  
     private Vector2[] beaconDirectionsDistorted = new Vector2[3]; // in ships local modelspace  
@@ -36,8 +36,9 @@ public class Messsensor: MonoBehaviour
     private float[] beaconEntfernungen = new float[3];
     private float[] beaconEntfernungenDistorted = new float[3];
 
-    public float[] beaconStds = new float[3]{1, 1, 1}; // Verrauscht sämtliche Messdaten für jeweilges Beacon
-    
+    public float[] beaconStds = new float[3] { 1, 1, 1 }; // Verrauscht sämtliche Messdaten für jeweilges Beacon
+    public float beaconVeryHighFallbackStd = 90f;
+
 
     void Start()
     {
@@ -45,6 +46,14 @@ public class Messsensor: MonoBehaviour
         timeAtLastMeasurement = Time.realtimeSinceStartup;
 
         DeleteInitialLogFile();
+        beaconStds = new float[3] { beaconVeryHighFallbackStd, beaconVeryHighFallbackStd, beaconVeryHighFallbackStd };
+
+        // Listen to beacons
+        for (int i = 0; i < beacons.Length; i++)
+        {
+            Beacon beaconScript = beacons[i].GetComponent<Beacon>();
+            beaconScript.broadCastEvent.AddListener(SetBeaconFlagByBeaconId);
+        }
     }
 
     void Update()
@@ -94,13 +103,20 @@ public class Messsensor: MonoBehaviour
         // Initial state of boat (x, y Position aka GT)
         // Position x, Position y
         logText += $"\t{transform.position.x}\t{transform.position.y}";
- 
+
         logText = logText.Replace(',', '.');
 
         using (StreamWriter writer = new StreamWriter(extendedLogFilePath, true))
         {
             writer.WriteLine(logText);
-        }        
+        }
+    }
+
+
+    void SetBeaconFlagByBeaconId(int beaconId, float beaconSTD)
+    {
+        beaconStds[beaconId] = beaconSTD;
+        Debug.Log($"BROADCAST: {beaconId} - {beaconSTD}");
     }
 
     void PerformMeasurement()
@@ -110,22 +126,22 @@ public class Messsensor: MonoBehaviour
         CalcAndSetBeaconDirections();
         CalcAndSetEntfernungen();
 
-        // Debug.Log("Beacon 0: " + beaconAnglesDistorted[0] + ": " + beaconDirectionsDistorted[0].ToString());
-        // Debug.Log("Beacon 1: " + beaconAnglesDistorted[1] + ": "  + beaconDirectionsDistorted[1].ToString());
-        // Debug.Log("Beacon 2: " + beaconAnglesDistorted[2] + ": "  + beaconDirectionsDistorted[2].ToString());
-
-       
         WriteExtendedLog();
+
+        for (int i = 0; i < beaconStds.Length; i++)
+        {
+            beaconStds[i] = beaconVeryHighFallbackStd;
+        }
 
         totalMeasurements += 1;
     }
 
     void CalcAndSetHeading()
     {
-      // East, weil transform.right in GetRelativeAngleToPosition verwendet wird
-      Vector3 pointEastOfShip = transform.position + new Vector3(1,0,0);
-      heading = GetRelativeAngleToPosition(pointEastOfShip);
-      headingDistorted = GenerateRandomGaussian(heading, headingSTD);
+        // East, weil transform.right in GetRelativeAngleToPosition verwendet wird
+        Vector3 pointEastOfShip = transform.position + new Vector3(1, 0, 0);
+        heading = GetRelativeAngleToPosition(pointEastOfShip);
+        headingDistorted = GenerateRandomGaussian(heading, headingSTD);
     }
 
     private void CalcAndSetBeaconAngles()
@@ -140,9 +156,6 @@ public class Messsensor: MonoBehaviour
 
     void CalcAndSetBeaconDirections()
     {
-        // FRAGE: Warum funktioniert das hier?
-        // FRAGE: ist das hier mit ein Grund, weshalb GetRelativeAngleToPosition transform.right verwendet?
-
         // undistorted directions
         float rad = Mathf.PI * beaconAngles[0] / 180.0f;
         beaconDirections[0] = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
@@ -170,12 +183,6 @@ public class Messsensor: MonoBehaviour
         float distanceBeacon0 = Vector3.Distance(beacons[0].transform.position, transform.position);
         float distanceBeacon1 = Vector3.Distance(beacons[1].transform.position, transform.position);
         float distanceBeacon2 = Vector3.Distance(beacons[2].transform.position, transform.position);
-
-        // Debug Log
-        Debug.Log($"Distanz zu Beacon 0: {distanceBeacon0}");
-        Debug.Log($"Distanz zu Beacon 1: {distanceBeacon1}");
-        Debug.Log($"Distanz zu Beacon 2: {distanceBeacon2}");
-
 
         // Speichern der direkten Entfernungen (ohne Richtungsberechnung)
         beaconEntfernungen[0] = distanceBeacon0; // Direkte Entfernung zu Beacon 0
@@ -277,6 +284,8 @@ public class Messsensor: MonoBehaviour
         logText += $"\t{beaconAngles[1]}\t{beaconAnglesDistorted[1]}\t{beaconStds[1]}";
         logText += $"\t{beaconAngles[2]}\t{beaconAnglesDistorted[2]}\t{beaconStds[2]}";
 
+        Debug.LogWarning($"STDs: {beaconStds[0]} - {beaconStds[1]} - {beaconStds[2]}");
+
         // Directions
         logText += $"\t{beaconDirections[0].x}\t{beaconDirections[0].y}";
         logText += $"\t{beaconDirectionsDistorted[0].x}\t{beaconDirectionsDistorted[0].y}\t{beaconStds[0]}";
@@ -284,7 +293,7 @@ public class Messsensor: MonoBehaviour
         logText += $"\t{beaconDirectionsDistorted[1].x}\t{beaconDirectionsDistorted[1].y}\t{beaconStds[1]}";
         logText += $"\t{beaconDirections[2].x}\t{beaconDirections[2].y}";
         logText += $"\t{beaconDirectionsDistorted[2].x}\t{beaconDirectionsDistorted[2].y}\t{beaconStds[2]}";
-      
+
         // Absolute distances to the beacons
         logText += $"\t{beaconEntfernungen[0]}\t{beaconEntfernungenDistorted[0]}\t{beaconStds[0]}";
         logText += $"\t{beaconEntfernungen[1]}\t{beaconEntfernungenDistorted[1]}\t{beaconStds[1]}";
