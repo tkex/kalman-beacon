@@ -6,12 +6,14 @@ using System.Collections.Generic;
 public class WebSocketClient : MonoBehaviour
 {
     WebSocket websocket;
-    public Measurement measurementData;
+    // TODO: Measurement was deprecated
+    // public Measurement measurementData;
 
     // Reference.
-    [Header("Reference Settings")]
-    [Tooltip("Reference to the sensor script.")]
-    public SensorOld sensor;
+    // [Header("Reference Settings")]
+    // [Tooltip("Reference to the sensor script.")]
+    // TODO: SensorOld was deprecated
+    // public SensorOld sensor;
 
 
     [Header("WebSocket Settings")]
@@ -65,14 +67,15 @@ public class WebSocketClient : MonoBehaviour
     async void Start()
     {
         // *** SENSOR EVENT CONFIGURATION ***
-        if (sensor == null)
-        {
-            Debug.LogError("IMPORTANT: Sensor is NOT assigned in WebSocketClient gameobject!");
-            return;
-        }
+        // TODO: sensor was deprecated
+        // if (sensor == null)
+        // {
+        //     Debug.LogError("IMPORTANT: Sensor is NOT assigned in WebSocketClient gameobject!");
+        //     return;
+        // }
 
         // Add Sensor Listener.
-        // TODO: enable again with updated conductedMeasurement-event
+        // TODO: conductedMeasruement was deprecated
         // sensor.conductedMeasurement.AddListener(HandleNewMeasurement);
 
 
@@ -136,47 +139,51 @@ public class WebSocketClient : MonoBehaviour
         MeasurementData data = new MeasurementData
         {
             // Ternary operator (Bedingung ? WertWennWahr : WertWennFalsch)
-            timestamp = sendTimestamp ? measurementData.timestamp : 0,
-            beaconId = sendBeaconId ? measurementData.beaconId : 0,
-            beaconPos = sendBeaconPos ? measurementData.beaconPos.ToString() : null,
-            angleGroundTruth = sendAngleGroundTruth ? measurementData.angleGroundTruth : 0,
-            angleDistorted = sendAngleDistorted ? measurementData.angleDistorted : 0,
-            sensorSTD = sendSensorSTD ? measurementData.sensorSTD : 0,
-            headingAngleGroundTruth = sendHeadingAngleGroundTruth ? measurementData.headingAngleGroundTruth : 0,
-            headingAngleDistorted = sendHeadingAngleDistorted ? measurementData.headingAngleDistorted : 0,
-            compassSTD = sendCompassSTD ? measurementData.compassSTD : 0,
-            beaconFlag = sendBeaconFlag ? measurementData.beaconFlag : 0
+            // TODO: types were deprecated
+            // timestamp = sendTimestamp ? measurementData.timestamp : 0,
+            // beaconId = sendBeaconId ? measurementData.beaconId : 0,
+            // beaconPos = sendBeaconPos ? measurementData.beaconPos.ToString() : null,
+            // angleGroundTruth = sendAngleGroundTruth ? measurementData.angleGroundTruth : 0,
+            // angleDistorted = sendAngleDistorted ? measurementData.angleDistorted : 0,
+            // sensorSTD = sendSensorSTD ? measurementData.sensorSTD : 0,
+            // headingAngleGroundTruth = sendHeadingAngleGroundTruth ? measurementData.headingAngleGroundTruth : 0,
+            // headingAngleDistorted = sendHeadingAngleDistorted ? measurementData.headingAngleDistorted : 0,
+            // compassSTD = sendCompassSTD ? measurementData.compassSTD : 0,
+            // beaconFlag = sendBeaconFlag ? measurementData.beaconFlag : 0
         };
 
         return JsonUtility.ToJson(data);
     }
 
 
-    private void HandleNewMeasurement(Measurement measurement)
-    {
-        // Refresh/update measurementData with new fetched data.
-        measurementData = measurement;
+    // TODO: Measurement is deprecated
+    // private void HandleNewMeasurement(Measurement measurement)
+    // {
+    //     // Refresh/update measurementData with new fetched data.
+    //     // TODO: measurementData is deprecated
+    //     // measurementData = measurement;
 
-        Debug.Log($"Received new measurement data: {measurement.ToString()}");
+    //     Debug.Log($"Received new measurement data: {measurement.ToString()}");
 
-        if (!isReadyToSend)
-        {
-            isReadyToSend = true;
+    //     if (!isReadyToSend)
+    //     {
+    //         isReadyToSend = true;
 
-            InvokeRepeating("SendWebSocketMessage", 0.0f, sendInterval);
-        }
-    }
+    //         InvokeRepeating("SendWebSocketMessage", 0.0f, sendInterval);
+    //     }
+    // }
 
     async void SendWebSocketMessage()
     {
-        if (websocket.State == WebSocketState.Open && isReadyToSend && measurementData != null)
-        {
-            string jsonData = SendDataBlock();
+        // TODO: measurementData is deprecated
+        // if (websocket.State == WebSocketState.Open && isReadyToSend && measurementData != null)
+        // {
+        //     string jsonData = SendDataBlock();
 
-            await websocket.SendText(jsonData);
+        //     await websocket.SendText(jsonData);
 
-            Debug.Log("Sending Json Data: " + jsonData);
-        }
+        //     Debug.Log("Sending Json Data: " + jsonData);
+        // }
         /*
         else
         {
