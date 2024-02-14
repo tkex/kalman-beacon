@@ -1637,7 +1637,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 10
   accSpeed: 2.5
-  propulsion: 1
+  propulsion: 2
   rudderMaxAngle: 45
   rudderTurnSpeed: 25
   rudderReturnSpeed: 10
@@ -5572,7 +5572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beaconID: 2
-  broadcastFrequencyInHz: 20
+  broadcastFrequencyInHz: 0.5
   beaconStd: 1
   beaconIsActive: 1
   broadCastEvent:
@@ -6434,7 +6434,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beaconID: 1
-  broadcastFrequencyInHz: 20
+  broadcastFrequencyInHz: 10
   beaconStd: 1
   beaconIsActive: 1
   broadCastEvent:
@@ -6538,9 +6538,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beaconID: 0
-  broadcastFrequencyInHz: 20
+  broadcastFrequencyInHz: 1
   beaconStd: 1
-  beaconIsActive: 0
+  beaconIsActive: 1
   broadCastEvent:
     m_PersistentCalls:
       m_Calls: []
