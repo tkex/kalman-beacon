@@ -1,0 +1,3 @@
+- gerade aus durch 0 und 2 durch
+- während durch 0 und 2 durch, Beacon 1 ausgeschaltet
+- Beacon 1 wieder an

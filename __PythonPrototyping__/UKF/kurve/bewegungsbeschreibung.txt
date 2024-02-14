@@ -1,0 +1,6 @@
+- gerade durch 0 und 2 durch
+- zwischen 0 und 2 war 1 ausgeschaltet
+- dann links-kurve zwischen 0 und 1 durch
+- vor links-kurve 1 wieder eingeschaltet
+- zwischen 0 und 1 Beacon 2 aus
+- dann rechts-kurve, gerade oben aus. 2 bleibt aus
