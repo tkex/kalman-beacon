@@ -5572,7 +5572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beaconID: 2
-  broadcastFrequencyInHz: 0.5
+  broadcastFrequencyInHz: 2.5
   beaconStd: 1
   beaconIsActive: 1
   broadCastEvent:
@@ -6434,7 +6434,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beaconID: 1
-  broadcastFrequencyInHz: 10
+  broadcastFrequencyInHz: 0.5
   beaconStd: 1
   beaconIsActive: 1
   broadCastEvent:
@@ -6538,7 +6538,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beaconID: 0
-  broadcastFrequencyInHz: 1
+  broadcastFrequencyInHz: 2.5
   beaconStd: 1
   beaconIsActive: 1
   broadCastEvent:
