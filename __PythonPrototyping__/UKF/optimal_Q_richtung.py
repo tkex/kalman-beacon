@@ -20,11 +20,11 @@ SIGMA_KAPPA_VALUE = 1.0
 
 # file_path = 'con_vel_basic_log.csv'
 # file_path = 'con_vel_beacon_freq_log.csv'
-# file_path = 'con_vel_beacon_flag_AND_freq_log.csv'
+file_path = 'con_vel_beacon_flag_AND_freq_log.csv'
 
 # file_path = 'dyn_acc_basic_log.csv'
 # file_path = 'dyn_acc_beacon_freq_log.csv'
-file_path = 'dyn_acc_beacon_flag_AND_freq_log.csv'
+# file_path = 'dyn_acc_beacon_flag_AND_freq_log.csv'
 
 df_head = pd.read_csv(file_path, sep='\t', header=None, nrows=1, names=[
 
@@ -208,9 +208,9 @@ def get_RMSE_from_Q(Q_variance):
     for index, row in df.iterrows():
 
         # Hole die Standardabweichungen für die aktuelle Messung, verkleine diese, um sie von Grad zu norm. Vektoren anzupassen, das ist nur eine math. Näherung!
-        std_b0 = row['STD_Richtung_B0'] / 100
-        std_b1 = row['STD_Richtung_B1'] / 100
-        std_b2 = row['STD_Richtung_B2'] / 100
+        std_b0 = row['STD_Richtung_B0'] / 10
+        std_b1 = row['STD_Richtung_B1'] / 10
+        std_b2 = row['STD_Richtung_B2'] / 10
 
         # Zeige Std zwecks Korrektheit
         # print(std_b0, std_b1, std_b2)
