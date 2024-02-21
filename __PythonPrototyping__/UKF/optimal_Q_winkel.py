@@ -216,23 +216,22 @@ def get_RMSE_from_Q(Q_variance):
         # Rückgabe der Winkel (Array)
         return np.array(measure_data)
 
-    # TODO: erzeuge sigmas korrekt: https://filterpy.readthedocs.io/en/latest/kalman/UnscentedKalmanFilter.html#filterpy.kalman.MerweScaledSigmaPoints
-    # def sigma_subtract(a, b):
-    #     # print(f"A: {a} \t B: {b}")
-    #     diff = a - b
-    #     for i in range(len(diff)):
-    #         diff[i] = normalize_angle_deg(diff[i])
-    #     return diff
+    def sigma_subtract(a, b):
+        # print(f"A: {a} \t B: {b}")
+        diff = a - b
+        for i in range(len(diff)):
+            diff[i] = normalize_angle_deg(diff[i])
+        return diff
 
     def init_ukf():
         """
         Initialisierung vom UKF.
         """
 
-        sigmas = MerweScaledSigmaPoints(
-            n=6, alpha=SIGMA_ALPHA_VALUE, beta=SIGMA_BETA_VALUE, kappa=SIGMA_KAPPA_VALUE)
         # sigmas = MerweScaledSigmaPoints(
-        # n=6, alpha=SIGMA_ALPHA_VALUE, beta=SIGMA_BETA_VALUE, kappa=SIGMA_KAPPA_VALUE, subtract=sigma_subtract)
+        # n=6, alpha=SIGMA_ALPHA_VALUE, beta=SIGMA_BETA_VALUE, kappa=SIGMA_KAPPA_VALUE)
+        sigmas = MerweScaledSigmaPoints(
+            n=6, alpha=SIGMA_ALPHA_VALUE, beta=SIGMA_BETA_VALUE, kappa=SIGMA_KAPPA_VALUE, subtract=sigma_subtract)
 
         # Dimension z ist 3 (da wir drei verzerrte Winkel als Messungen haben)
         ukf = UKF(dim_x=6, dim_z=3, dt=dT, fx=f_x, hx=h_x, points=sigmas,
