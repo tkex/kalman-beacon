@@ -16,13 +16,13 @@ SIGMA_BETA_VALUE = 2.0
 SIGMA_KAPPA_VALUE = 1.0
 
 
-# file_path = 'con_vel_basic_log.csv'
+file_path = 'con_vel_basic_log.csv'
 # file_path = 'con_vel_beacon_freq_log.csv'
 # file_path = 'con_vel_beacon_flag_AND_freq_log.csv'
 
 # file_path = 'dyn_acc_basic_log.csv'
 # file_path = 'dyn_acc_beacon_freq_log.csv'
-file_path = 'dyn_acc_beacon_flag_AND_freq_log.csv'
+# file_path = 'dyn_acc_beacon_flag_AND_freq_log.csv'
 
 
 # Einlesen der Datei

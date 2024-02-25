@@ -20,11 +20,11 @@ SIGMA_KAPPA_VALUE = 1.0
 
 # file_path = 'con_vel_basic_log.csv'
 # file_path = 'con_vel_beacon_freq_log.csv'
-file_path = 'con_vel_beacon_flag_AND_freq_log.csv'
+# file_path = 'con_vel_beacon_flag_AND_freq_log.csv'
 
 # file_path = 'dyn_acc_basic_log.csv'
 # file_path = 'dyn_acc_beacon_freq_log.csv'
-# file_path = 'dyn_acc_beacon_flag_AND_freq_log.csv'
+file_path = 'dyn_acc_beacon_flag_AND_freq_log.csv'
 
 df_head = pd.read_csv(file_path, sep='\t', header=None, nrows=1, names=[
 
