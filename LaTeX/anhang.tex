@@ -1,0 +1,118 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+
+\usepackage[utf8]{inputenc}
+% Auskommentieren sofern Deutsch
+\usepackage[ngerman]{babel}
+\usepackage{pgfplots}
+\usepackage{url}
+
+\usepackage{subcaption}
+\usepackage[hidelinks]{hyperref}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit,shapes.geometric,backgrounds}
+
+\begin{document}
+
+\section{Anhang}
+
+% ENTWEDER alle Ansätze mit einzelnen Plots visualisieren (2 x 3 er Figures)
+% ODER:
+%   Eine 3 x 3 er Figures für Fartvisualisierung 
+%   und eine  3 x 3 er Figure für Fehler/Varianzen
+
+
+% ------------------------- Ergebnisse: RICHTUNG -------------------------
+
+
+% 3er-Figure Fahrtvisualisierung: Constant Velocity RICHTUNG 1) basic, 2) frequenz, 3) frequenz+ausfall
+\input{figures/richtung_const_vel_fahrt}
+
+% 3er-Figure Fehler/Varianzen: Constant Velocity RICHTUNG 1) basic, 2) frequenz, 3) frequenz+ausfall
+\input{figures/richtung_const_vel_fehler}
+
+
+
+
+% % ------------------------- Ergebnisse: ENTFERNUNG -------------------------
+
+% \subsubsection{Entfernungsansatz}
+
+% 3er-Figure Fahrtvisualisierung: Constant Velocity ENTFERNUNG 1) basic, 2) frequenz, 3) frequenz+ausfall
+\input{figures/distanz_const_vel_fahrt}
+
+
+% 3er-Figure Fahrtvisualisierung: Constant Velocity ENTFERNUNG 1) basic, 2) frequenz, 3) frequenz+ausfall
+\input{figures/distanz_const_vel_fehler}
+
+
+
+
+% % ------------------------- Ergebnisse: WINKEL -------------------------
+
+% \subsubsection{Winkelansatz}
+
+% 3er-Figure Fahrtvisualisierung: Constant Velocity WINKEL 1) basic, 2) frequenz, 3) frequenz+ausfall
+\input{figures/winkel_const_vel_fahrt}
+
+% 3er-Figure Fehler/Varianzen: Constant Velocity WINKEL 1) basic, 2) frequenz, 3) frequenz+ausfall
+\input{figures/winkel_const_vel_fehler}
+
+
+% im Vergleich lässt sich sagen, dass ... unter den in Figur ... dargestellten Filtereinstellungen am besten abschneidet.
+% Wird Q optimal gesetzt, kann ... einen RMSE von bis zu ... erreichen. (Entweder besser oder schlechter als was auch immer unter nicht-Q-optimierten Bedingungen "gewonnen" hat)
+
+% \subsection{Dynamische Geschwindigkeit}
+
+%  ------------------------- Ergebnisse: RICHTUNG -------------------------
+
+% \subsubsection{Richtungsansatz}
+
+% 3er-Figure Fahrtvisualisierung: Dynamic Acceleration RICHTUNG 1) basic, 2) frequenz, 3) frequenz+ausfall
+\input{figures/richtung_dyn_acc_fahrt}
+
+% 3er-Figure Fehler/Varianzen: Dynamic Acceleration RICHTUNG 1) basic, 2) frequenz, 3) frequenz+ausfall
+\input{figures/richtung_dyn_acc_fehler}
+
+
+% % ------------------------- Ergebnisse: ENTFERNUNG -------------------------
+
+% \subsubsection{Entfernungsansatz}
+
+% 3er-Figure Fahrtvisualisierung: Dynamic Acceleration ENTFERNUNG 1) basic, 2) frequenz, 3) frequenz+ausfall
+\input{figures/distanz_dyn_acc_fahrt}
+
+
+% 3er-Figure Fahrtvisualisierung: Dynamic Acceleration ENTFERNUNG 1) basic, 2) frequenz, 3) frequenz+ausfall
+\input{figures/distanz_dyn_acc_fehler}
+
+
+
+% % ------------------------- Ergebnisse: WINKEL -------------------------
+
+% \subsubsection{Winkelansatz}
+
+% 3er-Figure Fahrtvisualisierung: Dynamic Acceleration WINKEL 1) basic, 2) frequenz, 3) frequenz+ausfall
+\input{figures/winkel_dyn_acc_fahrt}
+
+% 3er-Figure Fehler/Varianzen: Dynamic Acceleration WINKEL 1) basic, 2) frequenz, 3) frequenz+ausfall
+\input{figures/winkel_dyn_acc_fehler}
+
+% im Vergleich lässt sich sagen, dass ... bei optimalen Bedingungen am besten abschneidet
+
+
+\end{document}
