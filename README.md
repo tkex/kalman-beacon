@@ -1,5 +1,13 @@
 # kalman-beacon
 
+
+## Struktur
+
+- **Root**: Unity 2D Boot Simulations mit Sensor-Log-Erzeugung
+- **LaTeX**: Backup unserer LaTeX-Dokumente
+- **__PythonPrototyping__/UKF**: Unsere UKF-Implementierungen, Visualisierungen sowie Log-Daten
+- **kalman-beacon-hdrp**: 3D Implementierung in Unity
+
 ## Liste der derzeit implementierten (und geplanten) Funktionen
 
 Hier sind einige Hinweise zu den Funktionen, die (noch) nicht implementiert sind.
