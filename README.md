@@ -19,12 +19,12 @@ Die folgende Liste der Funktionen soll in Zukunft im Kalman-Beacon-Projekt imple
 | UKF-Initialisierung | Aufbau und Konfiguration des Unscented Kalman Filters. | ✅ DONE |
 | Geschwindigkeitsaktualisierung | Implementierung für die Aktualisierung der Geschwindigkeit (im UKF) | 🚧️ ***Under construction***  (Refaktorisierung in Erwägung) |
 | Hauptfunktion | Hauptfunktion mit Initialisierung, Vorhersage und Update-Zyklen. | ✅ DONE |
-| Visualisierung | Entwicklung einer Methode zur Visualisierung der Ergebnisse des Filters. | ❌ **TODO** |
+| Visualisierung | Entwicklung einer Methode zur Visualisierung der Ergebnisse des Filters. | 🚧️ ***Under construction*** |
 | Leistungsanalyse | Implementierung von Tests zur Bewertung der Leistung und Genauigkeit des Filters. | ❌ **TODO** |
-| Parametrisierung / Tuning | Anpassung der Filterparameter für optimalere Leistung. | ❌ **TODO** |
+| Parametrisierung / Tuning | Anpassung der Filterparameter für optimalere Leistung. | ✅ DONE |
 | Fehlerbehandlung | Erweiterung des Codes um robuste Fehlerbehandlung und Ausnahmeprüfungen. | ❌ **TODO** |
-| Echtzeit | Erweiterung/Anpassung des Codes zwecks Echtzeit-Datenverarbeitung. | ❌ **TODO** |
-| Code-Dokumentation | Erstellung eines Papers zum Projekt | ❌ **TODO** |
+| Echtzeit | Erweiterung/Anpassung des Codes zwecks Echtzeit-Datenverarbeitung. | 🚧️ ***Under construction*** |
+| Dokumentation | Erstellung eines Papers zum Projekt | ✅ DONE |
 
 ### Unity:
 
@@ -32,14 +32,14 @@ Die folgende Liste der Funktionen soll in Zukunft im Kalman-Beacon-Projekt imple
 | --- | --- | --- |
 | Unity-Projektsetup | Einrichtung des Unity-Projekts. | ✅ DONE |
 | Sensordatenintegration | Integration und Verarbeitung von Sensordaten. | ✅ DONE |
-| Bootssimulation | Entwicklung einer realistischen Bootssteuerungs- und Bewegungssimulation (Physik). | ❌ **TODO** |
-| Physik-Engine Anpassung | Verwendung der Unity-Physik-Engine für realistische Bootsbewegungen. | ❌ **TODO** |
+| Bootssimulation | Entwicklung einer realistischen Bootssteuerungs- und Bewegungssimulation (Physik). | 🚧️ ***Under construction*** |
+| Physik-Engine Anpassung | Verwendung der Unity-Physik-Engine für realistische Bootsbewegungen. | 🚧️ ***Under construction*** |
 | 3D-Modellierung | Erstellung oder Integration von 3D-Modellen für das Boot und die Umgebung. | ❌ **TODO** |
 | Sensordatenvisualisierung | Entwicklung von Methoden zur Visualisierung der Sensordaten in Echtzeit. | 🚧️ ***Under construction*** |
-| Logdateierstellung | Implementierung eines Systems zur Erstellung von Logdateien für Sensordaten | 🚧️ ***Under construction*** |
+| Logdateierstellung | Implementierung eines Systems zur Erstellung von Logdateien für Sensordaten | ✅ DONE |
 | WebSocket-Implementierung | Aufbau einer WebSocket-Verbindung für Echtzeit-Datenübertragung. | ✅ DONE |
 | Benutzeroberfläche | Entwicklung einer Benutzeroberfläche zur Anzeige von Sensordatenn. | ✅ DONE |
-| Echtzeit-Interaktion | Entwicklung von Echtzeit-Interaktion für das Boot. | ❌ **TODO** |
+| Echtzeit-Interaktion | Entwicklung von Echtzeit-Interaktion für das Boot. | 🚧️ ***Under construction*** |
 | Fehlerbehandlung und Optimierung | Implementierung robuster Fehlerbehandlung und Leistungsoptimierung. | ❌ **TODO** |
 
 <sub> **NOTE:** Last update on 31-01-2024 (list will be updated). </sub>
